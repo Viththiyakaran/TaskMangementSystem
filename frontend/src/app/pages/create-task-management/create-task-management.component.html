@@ -1,0 +1,100 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Data Tables</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active">Data</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-6">
+        <a routerLink="/task-managment" class="btn btn-primary m-2">Back To Task</a>
+        <div class="card">
+          <div class="card-body">
+            <div *ngIf="taskForm">
+              <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                  <label for="callType">Call Type</label>
+                  <input type="text" class="form-control" id="callType" formControlName="callType">
+                </div>
+                <div class="form-group">
+                  <label for="businessType">Business Type</label>
+                  <input type="text" class="form-control" id="businessType" formControlName="businessType">
+                </div>
+                <div class="form-group">
+                  <label for="businessId">Business ID</label>
+                  <!-- <input type="number" class="form-control" id="businessId" formControlName="businessId" > -->
+                  <select class="form-control" id="businessId" formControlName="businessId">
+                    <option value="">Select Business ID</option>
+                    <option *ngFor="let option of businessArray" [value]="option.businessId">{{ option.busName }}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="serviceType">Service Type</label>
+                  <input type="text" class="form-control" id="serviceType" formControlName="serviceType">
+                </div>
+                <div class="form-group">
+                  <label for="openDate">Open Date</label>
+                  <input type="datetime-local" class="form-control" id="openDate" formControlName="openDate">
+                </div>
+                <div class="form-group">
+                  <label for="openBy">Open By</label>
+                  <input type="number" class="form-control" id="openBy" formControlName="openBy">
+                </div>
+                <div class="form-group">
+                  <label for="assignedTo">Assigned To</label>
+                  <input type="number" class="form-control" id="assignedTo" formControlName="assignedTo">
+                </div>
+                <div class="form-group">
+                  <label for="appointmentDate">Appointment Date</label>
+                  <input type="datetime-local" class="form-control" id="appointmentDate" formControlName="appointmentDate">
+                </div>
+                <div class="form-group">
+                  <label for="appointmentType">Appointment Type</label>
+                  <input type="text" class="form-control" id="appointmentType" formControlName="appointmentType">
+                </div>
+                <div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="form-control" id="status" formControlName="status">
+                    <option value="">Select Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="lastUpdate">Last Update</label>
+                  <input type="datetime-local" class="form-control" id="lastUpdate" formControlName="lastUpdate">
+                </div>
+                <div class="form-group">
+                  <label for="closedDate">Closed Date</label>
+                  <input type="datetime-local" class="form-control" id="closedDate" formControlName="closedDate">
+                </div>
+                <div class="form-group">
+                  <label for="closedBy">Closed By</label>
+                  <input type="number" class="form-control" id="closedBy" formControlName="closedBy">
+                </div>
+                <div class="form-group">
+                  <label for="initialNote">Initial Note</label>
+                  <!-- <input type="text" class="form-control" id="initialNote" formControlName="initialNote"> -->
+                  <textarea class="form-control"  id="initialNote" formControlName="initialNote" style="height: 100px"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="clCustomerId">CL Customer ID</label>
+                  <input type="number" class="form-control" id="clCustomerId" formControlName="clCustomerId">
+                </div>
+                <div class="row mt-3">
+                   <button type="submit" class="btn btn-primary">Submit</button>
+               </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

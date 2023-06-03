@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import {  HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-task-management',
@@ -7,7 +8,8 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 })
 export class TaskManagementComponent implements OnInit {
 
-  constructor(private elementRef: ElementRef) { }
+  taskArray: any[] = [];
+  constructor(private elementRef: ElementRef , private http: HttpClient) { }
 
   ngOnInit(): void {
 
@@ -15,6 +17,16 @@ export class TaskManagementComponent implements OnInit {
     s.type = "text/javascript";
     s.src = "../assets/js/main.js";
     this.elementRef.nativeElement.appendChild(s);
+
+    this.loadAllTasks();
+  }
+
+  loadAllTasks()
+  {
+    this.http.get("http://localhost:5263/api/CallLog/GetAllCallLogTaskInfo").subscribe((res : any)=>{
+        this.taskArray =  res;
+        console.log(res);
+    })
   }
 
 }

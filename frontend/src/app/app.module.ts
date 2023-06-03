@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,6 +44,7 @@ import { PagesBlankComponent } from './pages/pages-blank/pages-blank.component';
 import { TaskManagementComponent } from './pages/task-management/task-management.component';
 
 import { DataTablesModule } from 'angular-datatables';
+import { CreateTaskManagementComponent } from './pages/create-task-management/create-task-management.component';
 
 @NgModule({
   declarations: [
@@ -80,12 +84,16 @@ import { DataTablesModule } from 'angular-datatables';
     PagesLoginComponent,
     PagesError404Component,
     PagesBlankComponent,
-    TaskManagementComponent
+    TaskManagementComponent,
+    CreateTaskManagementComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DataTablesModule
+    DataTablesModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
