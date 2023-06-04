@@ -21,12 +21,30 @@ export class TaskManagementComponent implements OnInit {
     this.loadAllTasks();
   }
 
-  loadAllTasks()
-  {
-    this.http.get("http://localhost:5263/api/CallLog/GetAllCallLogTaskInfo").subscribe((res : any)=>{
-        this.taskArray =  res;
-        console.log(res);
-    })
+
+
+  // loadAllTasks() {
+  //   this.http.get("http://localhost:5263/api/CallLog/GetAllCallLogTaskInfo")
+  //     .subscribe(
+  //       (res: any) => {
+  //         this.taskArray = res;
+  //         console.log(res);
+  //       },
+  //       error => {
+  //         console.error('Error loading business', error);
+  //       }
+  //     );
+  // }
+
+  async loadAllTasks() {
+    try {
+      const res = await this.http.get("http://localhost:5263/api/CallLog/GetAllCallLogTaskInfo").toPromise();
+      this.taskArray = res as any[];
+      console.log(res);
+    } catch (error) {
+      console.error('Error loading tasks', error);
+    }
   }
+
 
 }

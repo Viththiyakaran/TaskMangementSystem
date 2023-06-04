@@ -44,7 +44,9 @@ import { PagesBlankComponent } from './pages/pages-blank/pages-blank.component';
 import { TaskManagementComponent } from './pages/task-management/task-management.component';
 
 import { DataTablesModule } from 'angular-datatables';
-import { CreateTaskManagementComponent } from './pages/create-task-management/create-task-management.component';
+import { CreateTaskManagementComponent  } from './pages/create-task-management/create-task-management.component';
+
+
 
 @NgModule({
   declarations: [
@@ -85,7 +87,9 @@ import { CreateTaskManagementComponent } from './pages/create-task-management/cr
     PagesError404Component,
     PagesBlankComponent,
     TaskManagementComponent,
-    CreateTaskManagementComponent
+    CreateTaskManagementComponent,
+
+
   ],
   imports: [
     BrowserModule,
@@ -93,7 +97,8 @@ import { CreateTaskManagementComponent } from './pages/create-task-management/cr
     DataTablesModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
