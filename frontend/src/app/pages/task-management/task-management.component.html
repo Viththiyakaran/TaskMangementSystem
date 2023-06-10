@@ -15,22 +15,28 @@
         <a routerLink="/create-task-managment" class="btn btn-primary m-2">Create Task</a>
         <div class="card">
           <div class="card-body">
-            <table class="table datatable">
+            <div class="row mt-3 mb-3">
+              <label for="inputText" class="col-sm-1 col-form-label"> <th scope="col">Search</th></label>
+              <div class="col-sm-10"> <input type="text" name="businessName"  placeholder="Search by Business Name" [(ngModel)]="ticketId" (ngModelChange)="Search()" (keyup)="onKeyUp($event)" class="form-control"></div>
+           </div>
+            <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Status</th>
-                  <th scope="col">#</th>
-                  <th scope="col">Call Type</th>
-                  <th scope="col">Business Name</th>
-                  <th scope="col">Service Type</th>
-                  <th scope="col">Open Date</th>
-                  <th scope="col">Assigned To</th>
-                  <th scope="col">Last Update</th>
+                  <th scope="col" (click)="Sort('status')">Status <i [ngClass]="getSortIcon('status')"></i></th>
+                  <th scope="col" (click)="Sort('id')"># <i [ngClass]="getSortIcon('id')"></i></th>
+                  <th scope="col" (click)="Sort('callType')">Call Type <i [ngClass]="getSortIcon('callType')"></i></th>
+                  <th scope="col" (click)="Sort('businessName')">Business Name <i [ngClass]="getSortIcon('businessName')"></i></th>
+                  <th scope="col" (click)="Sort('serviceType')">Service Type <i [ngClass]="getSortIcon('serviceType')"></i></th>
+                  <th scope="col" (click)="Sort('openDate')">Open Date <i [ngClass]="getSortIcon('openDate')"></i></th>
+                  <th scope="col" (click)="Sort('assignedName')">Assigned To <i [ngClass]="getSortIcon('assignedName')"></i></th>
+                  <th scope="col" (click)="Sort('lastUpdate')">Last Update <i [ngClass]="getSortIcon('lastUpdate')"></i></th>
+                  <th scope="col" >Edit</th>
+                  <th scope="col" > Delete</th>
                   <!-- <th scope="col">CL Customer ID</th> -->
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let task of taskArray">
+                <tr *ngFor="let task of taskArray | filter: ticketId | orderBy: 'ticketId':true  | paginate: { itemsPerPage: 10, currentPage: p }">
                   <td>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="gridCheck1" [checked]="task.status.trim() === 'Completed'">
@@ -43,10 +49,17 @@
                   <td>{{ task.openDate }}</td>
                   <td>{{ task.assignedName }}</td>
                   <td>{{ task.lastUpdate }}</td>
+                  <td> <button type="button" class="btn btn-primary rounded-pill" (click)="editTask(task)">Edit</button></td>
+                  <button type="button" class="btn btn-danger rounded-pill" (click)="deleteTask(task)">Delete</button>
                   <!-- <td>{{ task.clCustomerId }}</td> -->
                 </tr>
               </tbody>
             </table>
+            <div class="row">
+              <div class="col-sm-12">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </div>
+            </div>
           </div>
         </div>
       </div>

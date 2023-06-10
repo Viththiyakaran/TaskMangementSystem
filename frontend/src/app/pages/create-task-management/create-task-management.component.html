@@ -11,6 +11,8 @@
   </div>
   <section class="section">
     <div class="row">
+      <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" *ngIf="isSuccess" role="alert"> Your Ticket Reference Number is : {{ticketIdAlert}}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button></div>
 
       <div class="col-lg-6">
         <a routerLink="/task-managment" class="btn btn-primary m-2">Back To Task</a>
@@ -19,12 +21,13 @@
             <table class="table datatable">
               <thead>
                 <tr>
-                  <th scope="col">Status</th>
-                  <th scope="col">#</th>
-                  <th scope="col">Call Type</th>
-                  <th scope="col">Business Name</th>
-                  <th scope="col">Assigned To</th>
-                </tr>
+
+                  <th scope="col" (click)="Sort('status')">Status <i [ngClass]="getSortIcon('status')"></i></th>
+                  <th scope="col" (click)="Sort('id')"># <i [ngClass]="getSortIcon('id')"></i></th>
+                  <th scope="col" (click)="Sort('callType')">Call Type <i [ngClass]="getSortIcon('callType')"></i></th>
+                  <th scope="col" (click)="Sort('businessName')">Business Name <i [ngClass]="getSortIcon('businessName')"></i></th>
+                  <th scope="col" (click)="Sort('assignedName')">Assigned To <i [ngClass]="getSortIcon('assignedName')"></i></th>
+
               </thead>
               <tbody>
                 <tr *ngFor="let task of taskArray">
@@ -40,6 +43,11 @@
                 </tr>
               </tbody>
             </table>
+            <div class="row">
+              <div class="col-sm-12">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -143,8 +151,7 @@
             </div>
           </div>
 
-          <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" *ngIf="isSuccess" role="alert"> A simple success alert with solid color—check it out! {{ticketIdAlert}}
-             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button></div>
+
         </div>
       </div>
     </div>
