@@ -44,6 +44,8 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     this.loadAllUsers();
     this.loadAllTasks();
     this.initializeForm();
+
+
   }
 
   loadTaskDetails(taskId: string) {
@@ -194,9 +196,13 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     // Initialize Select2 inside the ngAfterViewInit method
     setTimeout(() => {
       $('#businessId').select2();
-      $('#openBy').select2();
+      $('#businessId').val(this.task[0].businessId).trigger('change');
       $('#assignedTo').select2();
+      $('#assignedTo').val(this.task[0].assignedTo).trigger('change');
       $('#closedBy').select2();
+      $('#closedBy').val(this.task[0].closedBy).trigger('change');
+
+
 
       $('#closedBy').on('change', (event) => {
         this.selectedClosedUserId = $(event.target).val();
@@ -216,6 +222,8 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
       $('#businessId').on('change', (event) => {
         this.selectedBusinessId = $(event.target).val();
         console.log('Selected value:', this.selectedBusinessId);
+
+
 
         // Retrieve customer information based on the selected business ID
         if (this.selectedBusinessId) {
@@ -242,6 +250,8 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
         }
       });
     }, 0);
+
+
   }
 
 

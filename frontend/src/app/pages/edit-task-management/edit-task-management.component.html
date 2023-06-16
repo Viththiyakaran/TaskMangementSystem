@@ -63,8 +63,7 @@
               <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                   <label for="businessId">Business ID</label>
-                  <select class="form-control" id="businessId" formControlName="businessId" (change)="onBusinessIdSelected($event)" [(ngModel)]="task[0].businessName">
-                    <option value=""> {{ task[0].businessId }} -  {{ task[0].businessName }}</option>
+                  <select class="form-control" id="businessId" formControlName="businessId" (change)="onBusinessIdSelected($event)" >
                     <option *ngFor="let option of businessArray" [value]="option.businessId">{{ option.businessId }} - {{ option.busName }}</option>
                   </select>
                 </div>
