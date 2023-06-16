@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -13,7 +14,7 @@ export class TaskManagementComponent implements OnInit {
   key: string = 'id'; // Default sort key
   reverse: boolean = false;
 
-  constructor(private elementRef: ElementRef, private http: HttpClient) {}
+  constructor(private elementRef: ElementRef, private http: HttpClient,private router: Router) {}
 
   ngOnInit(): void {
     this.loadAllTasks();
@@ -121,6 +122,9 @@ export class TaskManagementComponent implements OnInit {
 
   editTask(task: any): void {
     // Perform the necessary actions to handle the edit functionality
+    const taskId = task.ticketId;
+    this.router.navigate(['/edit-task-managment', taskId]);
+
     console.log("Edit task:", task);
     // You can navigate to the edit page or display a modal for editing the task
   }

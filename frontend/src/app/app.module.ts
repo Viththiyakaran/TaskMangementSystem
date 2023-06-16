@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { CKEditorModule } from 'ckeditor4-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,6 +48,7 @@ import { TaskManagementComponent } from './pages/task-management/task-management
 
 import { DataTablesModule } from 'angular-datatables';
 import { CreateTaskManagementComponent  } from './pages/create-task-management/create-task-management.component';
+import { EditTaskManagementComponent } from './pages/edit-task-management/edit-task-management.component';
 
 
 
@@ -91,6 +92,7 @@ import { CreateTaskManagementComponent  } from './pages/create-task-management/c
     PagesBlankComponent,
     TaskManagementComponent,
     CreateTaskManagementComponent,
+    EditTaskManagementComponent,
 
 
   ],
@@ -103,8 +105,8 @@ import { CreateTaskManagementComponent  } from './pages/create-task-management/c
     ReactiveFormsModule,
     Ng2SearchPipeModule,
     Ng2OrderModule,
-    NgxPaginationModule
-
+    NgxPaginationModule,
+    CKEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

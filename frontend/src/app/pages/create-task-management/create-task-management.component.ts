@@ -25,19 +25,14 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
   selectedClosedUserId : any;
   taskArray: any[] = [];
   ticketIdAlert : any;
-
-
-  p: number = 1; // Declare the 'p' property for pagination
-  key: string = 'id'; // Default sort key
-  reverse: boolean = false;
   constructor(private formBuilder: FormBuilder, private http: HttpClient,private elementRef: ElementRef) {}
 
   ngOnInit() {
 
-    // var s = document.createElement("script");
-    // s.type = "text/javascript";
-    // s.src = "../assets/js/main.js";
-    // this.elementRef.nativeElement.appendChild(s);
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+    s.src = "../assets/js/main.js";
+    this.elementRef.nativeElement.appendChild(s);
 
     this.initializeForm();
     this.loadAllBusiness();
@@ -46,32 +41,6 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
 
 
   }
-
-  Sort(key: string): void {
-    this.key = key;
-    this.reverse = !this.reverse;
-
-    this.taskArray.sort((a, b) => {
-      const valA = a[key];
-      const valB = b[key];
-
-      if (valA < valB) {
-        return this.reverse ? 1 : -1;
-      }
-      if (valA > valB) {
-        return this.reverse ? -1 : 1;
-      }
-      return 0;
-    });
-  }
-
-  getSortIcon(key: string): string {
-    if (this.key === key) {
-      return this.reverse ? 'bi bi-sort-up' : 'bi bi-sort-down';
-    }
-    return 'bi bi-filter';
-  }
-
 
   initializeForm() {
     this.taskForm = this.formBuilder.group({
@@ -217,7 +186,6 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
             this.isSuccess = true;
             if (this.isSuccess) {
               this.getGeneratedTicketId();
-              this.loadAllTasks(); // Refresh the tasks
             }
           },
           error => {

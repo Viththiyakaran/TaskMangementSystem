@@ -34,6 +34,7 @@ import { PagesRegisterComponent } from './pages/pages-register/pages-register.co
 import { UsersProfileComponent } from './pages/users-profile/users-profile.component';
 import { TaskManagementComponent } from './pages/task-management/task-management.component';
 import { CreateTaskManagementComponent } from './pages/create-task-management/create-task-management.component';
+import { EditTaskManagementComponent } from './pages/edit-task-management/edit-task-management.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,7 @@ const routes: Routes = [
   { path: 'user-profile', component: UsersProfileComponent },
   { path: 'task-managment', component:  TaskManagementComponent},
   { path: 'create-task-managment', component:  CreateTaskManagementComponent},
+  { path: 'edit-task-managment/:taskId', component:  EditTaskManagementComponent },
 
 
 ];
