@@ -29,6 +29,17 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
   taskArray: any[] = [];
   ticketIdAlert: any;
 
+  public readOnlyConfig = {
+    readOnly: true,
+    toolbar: null, // Disable toolbar
+    removePlugins: 'toolbar', // Remove unwanted plugins
+    extraPlugins: 'image',
+    removeButtons: 'Image',
+    allowedContent: 'img[src]', // Allow only image elements with src attribute
+
+  };
+
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -62,42 +73,128 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
   }
 
   //----------------------------------------------------------------------//
+
+  ngAfterViewInit(): void {
+    // Initialize Select2 inside the ngAfterViewInit method
+    setTimeout(() => {
+      $('#businessId').select2();
+      $('#businessId').val(this.task[0].businessId).trigger('change');
+      $('#assignedTo').select2();
+      $('#assignedTo').val(this.task[0].assignedTo).trigger('change');
+      $('#closedBy').select2();
+      $('#closedBy').val(this.task[0].closedBy).trigger('change');
+
+
+
+      $('#closedBy').on('change', (event) => {
+        this.selectedClosedUserId = $(event.target).val();
+        console.log('Selected value:', this.selectedClosedUserId);
+      });
+
+      $('#openBy').on('change', (event) => {
+        this.selectedUserId = $(event.target).val();
+        console.log('Selected value:', this.selectedUserId);
+      });
+
+      $('#assignedTo').on('change', (event) => {
+        this.selectedAssignedUserId = $(event.target).val();
+        console.log('Selected value:', this.selectedAssignedUserId);
+      });
+
+      $('#businessId').on('change', (event) => {
+        this.selectedBusinessId = $(event.target).val();
+        console.log('Selected value:', this.selectedBusinessId);
+
+
+
+        // Retrieve customer information based on the selected business ID
+        if (this.selectedBusinessId) {
+          this.http
+            .get(
+              `http://localhost:5263/api/Business/BusinessInfo/${this.selectedBusinessId}`
+            )
+            .subscribe(
+              (response: any) => {
+                // Assuming the customer ID is stored in the response as `customerId`
+                const customerId = response.customerId;
+                console.log('Customer ID:', customerId);
+
+                // You can perform further operations with the customer ID, such as assigning it to a variable
+                this.clCustomerId = customerId;
+              },
+              (error) => {
+                console.error(
+                  'Error retrieving customer information',
+                  error
+                );
+              }
+            );
+        }
+      });
+    }, 0);
+
+
+  }
+
+
+  initializeForm() {
+    this.taskForm = this.formBuilder.group({
+      ticketId: [''],
+      callType: [''],
+      businessType: ['Registered'],
+      businessId: [''],
+      serviceType: [''],
+      openDate: [''],
+      openBy: [''],
+      assignedTo: [''],
+      appointmentDate: [''],
+      appointmentType: [''],
+      status: ['Open'],
+      lastUpdate: [''],
+      closedDate: [''],
+      closedBy:  this.selectedClosedUserId,
+      initialNote: [''],
+      clCustomerId: ['']
+    });
+  }
   onSubmit() {
     const currentDate = new Date().toISOString();
+    let cDateUpdate;
+    if (this.taskForm.status.includes('Completed')) {
+      cDateUpdate =currentDate;
+    }
+    else{
+      cDateUpdate =this.task[0].appointmentDate;
+    }
 
     if (this.taskForm.valid) {
-      const formData = {
-        ...this.taskForm.value,
-        closedDate: currentDate,
-        clCustomerId: this.clCustomerId,
-        openBy: this.selectedUserId,
-        closedBy: this.selectedAssignedUserId,
-        assignedTo: this.selectedAssignedUserId,
+      const formData: FormGroup = this.taskForm;
+      // const selectedClosedUserId = this.taskForm.value.closedBy;
+
+      const updatedTask = {
+        ...formData.value,
+        ticketId: this.task[0].ticketId,
+        callType: this.task[0].callType,
+        businessType: 'Registered',
+        businessId: this.task[0].businessId,
+        serviceType: this.task[0].serviceType,
+        openDate: this.task[0].openDate,
+        openBy: this.task[0].openBy,
+        assignedTo:this.task[0].assignedTo,
+        appointmentDate: this.task[0].appointmentDate,
+        appointmentType: this.task[0].appointmentType,
+        status: this.taskForm.value.status,
         lastUpdate: currentDate,
-        businessId: this.selectedBusinessId,
-        openDate: currentDate, // Set the openDate to the current date
-        ticketId: 0, // Set any additional properties if required
+        closedDate: cDateUpdate,
+        closedBy: this.selectedClosedUserId === undefined ? this.task[0].closedBy : this.selectedClosedUserId,
+        initialNote: this.task[0].initialNote,
+        clCustomerId: this.task[0].clCustomerId,
       };
-      console.log(formData);
-      this.http
-        .post('http://localhost:5263/api/CallLog/CreateTask', formData)
-        .subscribe(
-          (response) => {
-            console.log('Data saved successfully', response);
-            this.taskForm.reset();
-            $('#businessId').val('').trigger('change');
-            $('#closedBy').val('').trigger('change');
-            $('#openBy').val('').trigger('change');
-            $('#assignedTo').val('').trigger('change');
-            this.isSuccess = true;
-            if (this.isSuccess) {
-              // Perform any action after successful form submission
-            }
-          },
-          (error) => {
-            console.error('Error saving data', error);
-          }
-        );
+
+      console.log(updatedTask);
+
+
+
     }
   }
 
@@ -192,87 +289,6 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    // Initialize Select2 inside the ngAfterViewInit method
-    setTimeout(() => {
-      $('#businessId').select2();
-      $('#businessId').val(this.task[0].businessId).trigger('change');
-      $('#assignedTo').select2();
-      $('#assignedTo').val(this.task[0].assignedTo).trigger('change');
-      $('#closedBy').select2();
-      $('#closedBy').val(this.task[0].closedBy).trigger('change');
 
 
-
-      $('#closedBy').on('change', (event) => {
-        this.selectedClosedUserId = $(event.target).val();
-        console.log('Selected value:', this.selectedClosedUserId);
-      });
-
-      $('#openBy').on('change', (event) => {
-        this.selectedUserId = $(event.target).val();
-        console.log('Selected value:', this.selectedUserId);
-      });
-
-      $('#assignedTo').on('change', (event) => {
-        this.selectedAssignedUserId = $(event.target).val();
-        console.log('Selected value:', this.selectedAssignedUserId);
-      });
-
-      $('#businessId').on('change', (event) => {
-        this.selectedBusinessId = $(event.target).val();
-        console.log('Selected value:', this.selectedBusinessId);
-
-
-
-        // Retrieve customer information based on the selected business ID
-        if (this.selectedBusinessId) {
-          this.http
-            .get(
-              `http://localhost:5263/api/Business/BusinessInfo/${this.selectedBusinessId}`
-            )
-            .subscribe(
-              (response: any) => {
-                // Assuming the customer ID is stored in the response as `customerId`
-                const customerId = response.customerId;
-                console.log('Customer ID:', customerId);
-
-                // You can perform further operations with the customer ID, such as assigning it to a variable
-                this.clCustomerId = customerId;
-              },
-              (error) => {
-                console.error(
-                  'Error retrieving customer information',
-                  error
-                );
-              }
-            );
-        }
-      });
-    }, 0);
-
-
-  }
-
-
-  initializeForm() {
-    this.taskForm = this.formBuilder.group({
-      ticketId: [''],
-      callType: [''],
-      businessType: ['Registered'],
-      businessId: [''],
-      serviceType: [''],
-      openDate: [''],
-      openBy: [''],
-      assignedTo: [''],
-      appointmentDate: [''],
-      appointmentType: [''],
-      status: ['Open'],
-      lastUpdate: [''],
-      closedDate: [''],
-      closedBy: [''],
-      initialNote: [''],
-      clCustomerId: ['']
-    });
-  }
 }

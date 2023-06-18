@@ -11,10 +11,10 @@
   </div>
   <section class="section">
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <a routerLink="/task-management" class="btn btn-primary m-2" style="visibility: hidden;">Back To Task</a>
 
-        <div class="card">
+          <!-- <div class="card">
           <div class="card-body">
             <div>
               <h5 class="card-title">Chatting Bot</h5>
@@ -51,97 +51,105 @@
                 </div>
               </div>
             </div>
+          </div> -->
+
+          <div class="card">
+            <div class="card-body">
+              <div *ngIf="taskForm">
+
+                <h5 class="card-title">Ticket Detail - {{ task[0].ticketId }}
+                  <ng-container *ngIf="task[0].status.includes('Open')">
+                    <span class="badge rounded-pill bg-danger" >
+                      <span class="badge-text"style="color: white;;">Open</span>
+                    </span>
+                  </ng-container>
+
+                  <ng-container *ngIf="task[0].status.includes('Pending')">
+                    <span class="badge rounded-pill bg-warning">
+                      <span class="badge-text" style="color: black;">Pending</span>
+                    </span>
+                  </ng-container>
+
+                  <ng-container *ngIf="task[0].status.includes('Progress')">
+                    <span class="badge rounded-pill bg-primary">
+                      <span class="badge-text" style="color: white;">Progress</span>
+                    </span>
+                  </ng-container>
+
+                  <ng-container *ngIf="task[0].status.includes('Completed')">
+                    <span class="badge rounded-pill bg-success">
+                      <span class="badge-text" style="color: white;">Completed</span>
+                    </span>
+                  </ng-container>
+                </h5>
+
+
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                  <h4 class="alert-heading">{{ task[0].businessId }} - {{ task[0].businessName }}</h4>
+                  <hr>
+                  <p class="mb-0">
+                    <span class="badge rounded-pill bg-warning">Assignee          : {{ task[0].assignedName }}</span>
+                    <span class="badge rounded-pill bg-warning"> Appointment Date : {{ task[0].appointmentDate  }}</span>
+                    <span class="badge rounded-pill bg-warning"> Appointment Type : {{ task[0].appointmentType }}</span>
+                    <span class="badge rounded-pill bg-warning"> Service Type     : {{ task[0].serviceType }}</span>
+                    <span class="badge rounded-pill bg-warning"> callType         : {{ task[0].callType }}</span>
+                  </p>
+
+                  <hr>
+                  <p class="mb-0">
+                    <span class="badge rounded-pill bg-primary"> Open by : {{ task[0].openBy }} </span>
+                    <span class="badge rounded-pill bg-primary">Open Date: {{ task[0].openDate }}</span>
+                  </p>
+
+               </div>
+
+                <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+                  <!-- <div class="form-group">
+                    <label for="closedDate">Closed Date</label>
+                    <input type="datetime-local" class="form-control" id="closedDate" formControlName="closedDate">
+                  </div> -->
+                  <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" id="status" formControlName="status">
+                      <option value="Open">Open</option>
+                      <option value="Pending">Pending</option>
+                      <option value="In_progress">In Progress</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="closedBy">Closed By</label>
+                    <select class="form-control" id="closedBy" formControlName="closedBy" (change)="onClosedBySelected($event)">
+
+                      <option *ngFor="let user of userArray3" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
+                    </select>
+                  </div>
+                  <div class="row mt-3">
+                    <button type="submit" class="btn btn-primary">Completed</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" *ngIf="isSuccess" role="alert"> A simple success alert with solid color—check it out! {{ticketIdAlert}}
+               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button></div>
           </div>
+
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-8">
         <a routerLink="/task-managment" class="btn btn-primary m-2" style="visibility: hidden;">Back To Task</a>
 
         <div class="card">
           <div class="card-body">
             <div *ngIf="taskForm">
-              <h5 class="card-title">Create the task</h5>
+              <h5 class="card-title">Create the task {{ task[0].ticketId }}</h5>
+
               <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                  <label for="businessId">Business ID</label>
-                  <select class="form-control" id="businessId" formControlName="businessId" (change)="onBusinessIdSelected($event)" >
-                    <option *ngFor="let option of businessArray" [value]="option.businessId">{{ option.businessId }} - {{ option.busName }}</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="callType">Call Type</label>
-                  <select class="form-control" id="callType" formControlName="callType" [(ngModel)]="task[0].callType">
-                    <option  [value]=" task[0].callType">{{ task[0].callType }}</option>
-                    <option value="Support">Support</option>
-                    <option value="Development">Development</option>
-                    <option value="Sales">Sales</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="serviceType">Service Type</label>
-                  <select class="form-control" id="serviceType" formControlName="serviceType" [(ngModel)]="task[0].serviceType">
-                    <option  [value]=" task[0].serviceType">{{ task[0].serviceType }}</option>
-                    <option value="ePOS">ePOS</option>
-                    <option value="Hospitality">Hospitality</option>
-                    <option value="CCTV">CCTV</option>
-                    <option value="Alarm">Alarm</option>
-                    <option value="Light">Light</option>
-                  </select>
-                </div>
-                <!-- <div class="form-group">
-                  <label for="openBy">Open By</label>
-                  <select class="form-control" id="openBy" formControlName="openBy" (change)="onOpenBySelected($event)">
-                    <option value="">Select the support engineer</option>
-                    <option *ngFor="let user of userArray" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
-                  </select>
-                </div> -->
-                <div class="form-group">
-                  <label for="assignedTo">Assigned To</label>
-                  <select class="form-control" id="assignedTo" formControlName="assignedTo" (change)="onAssignedToSelected($event)" [(ngModel)]="task[0].assignedName">
-                    <option  [value]=" task[0].assignedTo">{{ task[0].assignedTo }} - {{ task[0].assignedName }}</option>
-                    <option *ngFor="let user of userArray2" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="appointmentDate">Appointment Date</label>
-                  <input type="datetime-local" class="form-control" id="appointmentDate" formControlName="appointmentDate" [(ngModel)]="task[0].appointmentDate">
-                </div>
-                <div class="form-group">
-                  <label for="appointmentType">Appointment Type</label>
-                  <select class="form-control" id="appointmentType" formControlName="appointmentType" [(ngModel)]="task[0].appointmentType">
-                    <option  [value]="task[0].appointmentType">{{ task[0].appointmentType }} </option>
-                    <option value="No Appointment">No Appointment</option>
-                    <option value="E-Mail">E-Mail</option>
-                    <option value="Talk">Talk</option>
-                    <option value="Site Survey">Site Survey</option>
-                    <option value="Installation">Installation</option>
-                    <option value="Troubleshoot">Troubleshoot</option>
-                    <option value="Repair">Repair</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="status">Status</label>
-                  <select class="form-control" id="status" formControlName="status" [(ngModel)]="task[0].status">
-                    <option  [value]="task[0].status">{{ task[0].status }} </option>
-                    <option value="pending">Pending</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                  </select>
-                </div>
-                <!-- <div class="form-group">
-                  <label for="lastUpdate">Last Update</label>
-                  <input type="datetime-local" class="form-control" id="lastUpdate" formControlName="lastUpdate">
-                </div> -->
-                <div class="form-group">
-                  <label for="closedDate">Closed Date</label>
-                  <input type="datetime-local" class="form-control" id="closedDate" formControlName="closedDate">
-                </div>
-                <div class="form-group">
-                  <label for="closedBy">Closed By</label>
-                  <select class="form-control" id="closedBy" formControlName="closedBy" (change)="onClosedBySelected($event)">
-                    <option value="">Select the support engineer</option>
-                    <option *ngFor="let user of userArray3" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
-                  </select>
+                  <label for="initialNote">Initial Note</label>
+                  <div class="form-group">
+                    <ckeditor [config]="readOnlyConfig" [(ngModel)]="task[0].initialNote" id="initialNote" formControlName="initialNote" readonly="true"></ckeditor>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label for="initialNote">Initial Note</label>
@@ -151,7 +159,7 @@
                 </div>
 
                 <div class="row mt-3">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Comment</button>
                 </div>
               </form>
             </div>
