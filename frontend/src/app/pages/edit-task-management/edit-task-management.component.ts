@@ -191,7 +191,18 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
         clCustomerId: this.task[0].clCustomerId,
       };
 
-      console.log(updatedTask);
+      const taskId = this.route.snapshot.params['taskId'];
+      const url = `http://localhost:5263/api/CallLog/PutCallLogTaskInfo/${taskId}`;
+      this.http.put(url, updatedTask).subscribe(
+        (response: any) => {
+          console.log('Task updated successfully:', response);
+          // Perform any other actions after successful update
+        },
+        (error) => {
+          console.error('Error updating task:', error);
+          // Handle the error case
+        }
+      );
 
 
 
