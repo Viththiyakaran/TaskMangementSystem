@@ -29,6 +29,9 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
   taskArray: any[] = [];
   ticketIdAlert: any;
 
+  //========================================================
+  taskNotes: any[] = [];
+
   public readOnlyConfig = {
     readOnly: true,
     toolbar: null, // Disable toolbar
@@ -55,9 +58,23 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     this.loadAllUsers();
     this.loadAllTasks();
     this.initializeForm();
-
+    this.loadNotesById(taskId);
 
   }
+
+  loadNotesById(taskId: string) {
+    const url = `http://localhost:5263/api/CallLog/GetCallLogTaskNotesInfo/${taskId}`;
+    this.http.get(url).subscribe((response: any) => {
+        this.taskNotes = response;
+        console.log('Task notes information:', this.taskNotes);
+        // Handle the task notes information in your component logic
+      },
+      (error) => {
+        console.error('Error retrieving task notes information:', error);
+        // Handle the error case
+      });
+  }
+
 
   loadTaskDetails(taskId: string) {
     const url = `http://localhost:5263/api/CallLog/GetCallLogTaskInfoById/${taskId}`;

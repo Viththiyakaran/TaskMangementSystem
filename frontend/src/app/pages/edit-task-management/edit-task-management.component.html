@@ -70,7 +70,7 @@
                     </span>
                   </ng-container>
 
-                  <ng-container *ngIf="task[0].status.includes('Progress')">
+                  <ng-container *ngIf="task[0].status.includes('In_progress')">
                     <span class="badge rounded-pill bg-primary">
                       <span class="badge-text" style="color: white;">Progress</span>
                     </span>
@@ -111,6 +111,7 @@
                   <div class="form-group">
                     <label for="status">Status</label>
                     <select class="form-control" id="status" formControlName="status">
+                      <option value="Open">{{this.task[0].status}}</option>
                       <option value="Open">Open</option>
                       <option value="Pending">Pending</option>
                       <option value="In_progress">In Progress</option>
@@ -142,15 +143,18 @@
         <div class="card">
           <div class="card-body">
             <div *ngIf="taskForm">
-              <h5 class="card-title">Create the task {{ task[0].ticketId }}</h5>
+              <h5 class="card-title">Logs of {{ task[0].ticketId }}</h5>
 
               <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                  <label for="initialNote">Initial Note</label>
+                  <label for="initialNote" class="card-title">Initial Note</label>
                   <div class="form-group">
                     <ckeditor [config]="readOnlyConfig" [(ngModel)]="task[0].initialNote" id="initialNote" formControlName="initialNote" readonly="true"></ckeditor>
                   </div>
                 </div>
+              </form>
+
+              <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                   <label for="initialNote">Initial Note</label>
                   <div class="form-group">
