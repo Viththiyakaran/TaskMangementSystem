@@ -13,7 +13,9 @@ import 'select2';
 export class EditTaskManagementComponent implements OnInit, AfterViewInit {
   task: any;
   taskForm!: FormGroup;
+  taskFormNotes!: FormGroup;
   editorContent!: string; // CKEditor content
+  newNote: any;
   //========================================================
   isSuccess: boolean = false;
   businessArray: any[] = [];
@@ -59,11 +61,11 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     this.loadAllTasks();
     this.initializeForm();
     this.loadNotesById(taskId);
-
+    this.initializeFormNotes();
   }
 
   loadNotesById(taskId: string) {
-    const url = `http://localhost:5263/api/CallLog/GetCallLogTaskNotesInfo/${taskId}`;
+    const url = `http://localhost:5263/api/LogNote/GetCallLogNotesInfo/${taskId}`;
     this.http.get(url).subscribe((response: any) => {
         this.taskNotes = response;
         console.log('Task notes information:', this.taskNotes);
@@ -153,6 +155,52 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
 
   }
 
+
+
+  initializeFormNotes() {
+    this.taskFormNotes = this.formBuilder.group({
+      ticketId	: [''],
+      logDate :  [''],
+      logBy :  [''],
+      note: [''],
+      status :  [''],
+      assignedTo :  [''],
+      appointmentType :  [''],
+      appointmentDate :  ['']
+    });
+  }
+  onSubmitNote() {
+    const currentDate = new Date().toISOString();
+
+    if (this.taskFormNotes.valid) {
+      const formData = {
+      ...this.taskFormNotes.value,
+      ticketId	: this.task[0].ticketId,
+      logDate : currentDate,
+      logBy : this.task[0].openBy,
+      note:  this.taskFormNotes.value.note,
+      status :   this.taskForm.value.status,
+      assignedTo :  this.task[0].assignedTo,
+      appointmentDate: this.task[0].appointmentDate,
+      appointmentType: this.task[0].appointmentType
+      };
+      console.log(formData)
+
+      // Call your API endpoint to save the formData
+    this.http.post('http://localhost:5263/api/LogNote/CreateNote', formData).subscribe(
+      (response: any) => {
+        console.log('API response Note:', response);
+        // Handle the response data in your component logic
+      },
+      (error) => {
+        console.error('API error:', error);
+        // Handle the error case
+      }
+    );
+
+    }
+
+  }
 
   initializeForm() {
     this.taskForm = this.formBuilder.group({
