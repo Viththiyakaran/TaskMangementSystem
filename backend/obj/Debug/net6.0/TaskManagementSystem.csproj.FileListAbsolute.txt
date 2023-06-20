@@ -1,3 +1,10 @@
+D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.csproj.AssemblyReference.cache
+D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
+D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.AssemblyInfoInputs.cache
+D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.AssemblyInfo.cs
+D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.csproj.CoreCompileInputs.cache
+D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.MvcApplicationPartsAssemblyInfo.cs
+D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.MvcApplicationPartsAssemblyInfo.cache
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\appsettings.Development.json
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\appsettings.json
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\TaskManagementSystem.exe
@@ -5,6 +12,7 @@ D:\TaskMangementSystem\backend\bin\Debug\net6.0\TaskManagementSystem.deps.json
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\TaskManagementSystem.runtimeconfig.json
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\TaskManagementSystem.dll
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\TaskManagementSystem.pdb
+D:\TaskMangementSystem\backend\bin\Debug\net6.0\FluentAssertions.dll
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\Humanizer.dll
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
@@ -46,13 +54,6 @@ D:\TaskMangementSystem\backend\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\S
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 D:\TaskMangementSystem\backend\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.csproj.AssemblyReference.cache
-D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
-D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.AssemblyInfoInputs.cache
-D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.AssemblyInfo.cs
-D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.csproj.CoreCompileInputs.cache
-D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.MvcApplicationPartsAssemblyInfo.cs
-D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.MvcApplicationPartsAssemblyInfo.cache
 D:\TaskMangementSystem\backend\obj\Debug\net6.0\staticwebassets\msbuild.TaskManagementSystem.Microsoft.AspNetCore.StaticWebAssets.props
 D:\TaskMangementSystem\backend\obj\Debug\net6.0\staticwebassets\msbuild.build.TaskManagementSystem.props
 D:\TaskMangementSystem\backend\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.TaskManagementSystem.props
@@ -67,4 +68,3 @@ D:\TaskMangementSystem\backend\obj\Debug\net6.0\refint\TaskManagementSystem.dll
 D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.pdb
 D:\TaskMangementSystem\backend\obj\Debug\net6.0\TaskManagementSystem.genruntimeconfig.cache
 D:\TaskMangementSystem\backend\obj\Debug\net6.0\ref\TaskManagementSystem.dll
-D:\TaskMangementSystem\backend\bin\Debug\net6.0\FluentAssertions.dll

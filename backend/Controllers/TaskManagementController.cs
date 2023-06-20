@@ -21,25 +21,31 @@ namespace TaskManagement.Controllers
             return await _callLogService.GetAllCallLogs();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TblCallLog>> GetCallLogById(int id)
+        [HttpGet("GetAllCallLogTaskInfo")]
+        public async Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogTaskInfo()
+        {
+            return await _callLogService.GetAllCallLogsTaskInfo();
+        }
+
+        [HttpGet("GetCallLogTaskInfoById/{id}")]
+        public async Task<IEnumerable<TblCallLogTaskInfo>> GetCallLogById(int id)
         {
             var callLog = await _callLogService.GetCallLogById(id);
             if (callLog == null)
             {
-                return NotFound();
+                return (IEnumerable<TblCallLogTaskInfo>)NotFound();
             }
             return callLog;
         }
 
-        [HttpPost]
+        [HttpPost("CreateTask")]
         public async Task<ActionResult<TblCallLog>> CreateCallLog(TblCallLog callLog)
         {
             var createdCallLog = await _callLogService.CreateCallLog(callLog);
             return CreatedAtAction(nameof(GetCallLogById), new { id = createdCallLog.TicketId }, createdCallLog);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("PutCallLogTaskInfo/{id}")]
         public async Task<ActionResult<TblCallLog>> UpdateCallLog(int id, TblCallLog callLog)
         {
             var updatedCallLog = await _callLogService.UpdateCallLog(id, callLog);
@@ -50,7 +56,7 @@ namespace TaskManagement.Controllers
             return updatedCallLog;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteTask/{id}")]
         public async Task<ActionResult> DeleteCallLog(int id)
         {
             var result = await _callLogService.DeleteCallLog(id);
@@ -60,5 +66,24 @@ namespace TaskManagement.Controllers
             }
             return NoContent();
         }
+
+        [HttpGet("GenerateTicketId")]
+        public async Task<ActionResult> GenerateTicketId()
+        {
+            var ticketId = await _callLogService.GenerateTicketId();
+
+            return Ok(ticketId);
+        }
+
+        //[HttpGet("GetCallLogTaskNotesInfo/{id}")]
+        //public async Task<IEnumerable<TblLogNote>> GetCallLogNotesById(int id)
+        //{
+        //    var callNotesLog = await _callLogService.GetCallLogNotesById(id);
+        //    if (callNotesLog == null)
+        //    {
+        //        return (IEnumerable<TblLogNote>)NotFound();
+        //    }
+        //    return callNotesLog;
+        //}
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TaskManagementSystem.Models
 {
     public partial class TblLogNote
     {
+        [Key]
         public int NoteId { get; set; }
         public int TicketId { get; set; }
         public DateTime? LogDate { get; set; }
