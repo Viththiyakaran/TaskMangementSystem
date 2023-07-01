@@ -176,6 +176,7 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
       const formData = {
       ...this.taskFormNotes.value,
       ticketId	: this.task[0].ticketId,
+      noteID : 0,
       logDate : currentDate,
       logBy : this.task[0].openBy,
       note:  this.taskFormNotes.value.note,
