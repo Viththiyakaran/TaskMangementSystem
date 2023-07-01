@@ -12,8 +12,8 @@ using TaskManagementSystem.Data;
 namespace TaskManagementSystem.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20230620161118_TblNote")]
-    partial class TblNote
+    [Migration("20230701120112_Tbl Note Primary key")]
+    partial class TblNotePrimarykey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

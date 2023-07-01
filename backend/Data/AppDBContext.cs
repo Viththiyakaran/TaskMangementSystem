@@ -828,7 +828,7 @@ namespace TaskManagementSystem.Data
 
             modelBuilder.Entity<TblLogNote>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.NoteId);
 
                 entity.ToTable("tblLogNotes");
 

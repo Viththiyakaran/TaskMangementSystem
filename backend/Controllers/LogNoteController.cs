@@ -8,17 +8,17 @@ namespace TaskManagementSystem.Controllers
     [Route("api/[controller]")]
     public class LogNoteController : ControllerBase
     {
-        private readonly INoteLogInterface _logNoteController;
+        private readonly INoteLogInterface _logNoteService;
 
         public LogNoteController(INoteLogInterface logNoteController)
         {
-            _logNoteController = logNoteController;
+            _logNoteService = logNoteController;
 
         }
         [HttpGet("GetCallLogNotesInfo/{id}")]
         public async Task<IEnumerable<TblLogNote>> GetCallLogNotesById(int id)
         {
-            var callNotesLog = await _logNoteController.GetCallLogNotesById(id);
+            var callNotesLog = await _logNoteService.GetCallLogNotesById(id);
             if (callNotesLog == null)
             {
                 return (IEnumerable<TblLogNote>)NotFound();
@@ -31,8 +31,12 @@ namespace TaskManagementSystem.Controllers
         [HttpPost("CreateNote")]
         public async Task<ActionResult<TblLogNote>> CreateCallLogNote(TblLogNote callLogNote)
         {
-            var createdCallLogNote = await _logNoteController.CreateCallLogNote(callLogNote);
+            var createdCallLogNote = await _logNoteService.CreateCallLogNote(callLogNote);
             return createdCallLogNote;
         }
+
+
+
+
     }
 }
