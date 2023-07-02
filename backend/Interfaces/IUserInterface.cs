@@ -5,6 +5,8 @@ namespace TaskManagementSystem.Interfaces
     public interface IUserInterface
     {
         Task<IEnumerable<TblUser>> GetAllUsersDetails();
+
+        Task<string> LoginAsync(string UserName, string UserPassword);
         //Task<TblUser> GetAllBusinessDetailsById(int businessId);
         //Task<TblUser> CreateCallLog(TblCallLog callLog);
         //Task<TblUser> UpdateCallLog(int id, TblCallLog callLog);

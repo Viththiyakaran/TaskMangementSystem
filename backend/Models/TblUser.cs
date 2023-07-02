@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TaskManagementSystem.Models
+﻿namespace TaskManagementSystem.Models
 {
     public partial class TblUser
     {
@@ -12,5 +9,6 @@ namespace TaskManagementSystem.Models
         public string? UserGroup { get; set; }
         public Guid? UserGuid { get; set; }
         public bool? IsActive { get; set; }
+
     }
 }

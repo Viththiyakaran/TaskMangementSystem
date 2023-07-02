@@ -21,5 +21,33 @@ namespace TaskManagementSystem.Controllers
         {
             return await _userService.GetAllUsersDetails();
         }
+
+        [HttpPost("LoginUser")]
+        public async Task<IActionResult> LoginUser(string UserName, string UserPassword)
+        {
+            try
+            {
+                var users = await _userService.LoginAsync(UserName, UserPassword);
+
+                if (users != null)
+                {
+                    // Login successful
+                    return Ok(users);
+                }
+                else
+                {
+                    // Invalid credentials
+                    return BadRequest("Invalid username or password.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return an error message
+                Console.WriteLine($"An error occurred during login: {ex.Message}");
+                return StatusCode(500, "An error occurred during login. Please try again later.");
+            }
+        }
+
+
     }
 }
