@@ -27,7 +27,7 @@ namespace TaskManagementSystem.Services
             return await _db.TblUsers.ToListAsync();
         }
 
-        public async Task<string> LoginAsync(string userName, string userPassword)
+        public async Task<TblUserJWT> LoginAsync(string userName, string userPassword)
         {
             string hashedPassword = HashSHA1Password(userPassword);
 
@@ -39,11 +39,18 @@ namespace TaskManagementSystem.Services
                 // Generate JWT token for the authenticated user
                 string jwtToken = await GenerateJwtTokenAsync(user);
 
-                return jwtToken;
+                TblUserJWT jwt = new TblUserJWT
+                {
+                    UserName = user.UserName,
+                    UserToken = jwtToken
+                };
+
+                return jwt;
             }
 
             return null; // Or handle the case when user is not found
         }
+
 
 
 

@@ -11,4 +11,12 @@
         public bool? IsActive { get; set; }
 
     }
+
+    public partial class TblUserJWT
+    {
+
+        public string? UserName { get; set; }
+        public string? UserToken { get; set; }
+
+    }
 }
