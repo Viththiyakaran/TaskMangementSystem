@@ -29,7 +29,7 @@ import { PagesBlankComponent } from './pages/pages-blank/pages-blank.component';
 import { PagesContactComponent } from './pages/pages-contact/pages-contact.component';
 import { PagesError404Component } from './pages/pages-error404/pages-error404.component';
 import { PagesFaqComponent } from './pages/pages-faq/pages-faq.component';
-import { PagesLoginComponent } from './pages/pages-login/pages-login.component';
+import { PagesLoginComponent } from './pages/login/pages-login.component';
 import { PagesRegisterComponent } from './pages/pages-register/pages-register.component';
 import { UsersProfileComponent } from './pages/users-profile/users-profile.component';
 import { TaskManagementComponent } from './pages/task-management/task-management.component';
@@ -68,7 +68,7 @@ const routes: Routes = [
   { path: 'pages-contact', component: PagesContactComponent },
   { path: 'pages-error404', component: PagesError404Component },
   { path: 'pages-faq', component: PagesFaqComponent },
-  { path: 'pages-login', component: PagesLoginComponent },
+  { path: 'login', component: PagesLoginComponent },
   { path: 'pages-register', component: PagesRegisterComponent },
   { path: 'user-profile', component: UsersProfileComponent },
   { path: 'task-managment', component:  TaskManagementComponent},

@@ -41,7 +41,7 @@ import { UsersProfileComponent } from './pages/users-profile/users-profile.compo
 import { PagesFaqComponent } from './pages/pages-faq/pages-faq.component';
 import { PagesContactComponent } from './pages/pages-contact/pages-contact.component';
 import { PagesRegisterComponent } from './pages/pages-register/pages-register.component';
-import { PagesLoginComponent } from './pages/pages-login/pages-login.component';
+import { PagesLoginComponent } from './pages/login/pages-login.component';
 import { PagesError404Component } from './pages/pages-error404/pages-error404.component';
 import { PagesBlankComponent } from './pages/pages-blank/pages-blank.component';
 import { TaskManagementComponent } from './pages/task-management/task-management.component';

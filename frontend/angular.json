@@ -22,6 +22,10 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "allowedCommonJsDependencies": [
+              "jquery",
+              "ng2-order-pipe"
+           ],
             "styles": [
               "src/styles.css",
               "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
@@ -43,8 +47,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
