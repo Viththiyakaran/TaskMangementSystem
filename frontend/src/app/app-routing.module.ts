@@ -38,8 +38,8 @@ import { EditTaskManagementComponent } from './pages/edit-task-management/edit-t
 
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full'  },
+  { path: 'dashboard', component: DashboardComponent},
   { path: 'alerts', component: AlertsComponent },
   { path: 'accordion', component: AccordionComponent },
   { path: 'badges', component: BadgesComponent },
@@ -71,9 +71,9 @@ const routes: Routes = [
   { path: 'login', component: PagesLoginComponent },
   { path: 'pages-register', component: PagesRegisterComponent },
   { path: 'user-profile', component: UsersProfileComponent },
-  { path: 'task-managment', component:  TaskManagementComponent},
+  { path: 'task-managment', component:  TaskManagementComponent },
   { path: 'create-task-managment', component:  CreateTaskManagementComponent},
-  { path: 'edit-task-managment/:taskId', component:  EditTaskManagementComponent },
+  { path: 'edit-task-managment/:taskId', component:  EditTaskManagementComponent  },
 
 
 ];

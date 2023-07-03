@@ -22,13 +22,17 @@ export class PagesLoginComponent implements OnInit {
     this.http.post<any>(url, null).subscribe(
       response => {
         // Save the JWT token in local storage
-        console.log('Token out');
+
         try {
-          localStorage.setItem('token', response.token);
-          console.log('Token:', response.token);
+          localStorage.setItem('userToken', response.userToken);
+          localStorage.setItem('UserName', response.userName);
+          console.log('UserToken:', response.userToken);
+          console.log('UserName:', response.userName);
+          //console.log('response Data:', response);
 
           // Redirect to the desired page after successful login
           this.router.navigate(['/dashboard']);
+
         } catch (error) {
           console.log('Error storing token in localStorage:', error);
         }

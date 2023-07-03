@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2OrderModule } from 'ng2-order-pipe';
@@ -50,6 +50,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { CreateTaskManagementComponent  } from './pages/create-task-management/create-task-management.component';
 import { EditTaskManagementComponent } from './pages/edit-task-management/edit-task-management.component';
 
+import { AuthInterceptor } from './service/token-pass.interceptor';
 
 
 @NgModule({
@@ -108,7 +109,13 @@ import { EditTaskManagementComponent } from './pages/edit-task-management/edit-t
     NgxPaginationModule,
     CKEditorModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
