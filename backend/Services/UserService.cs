@@ -45,7 +45,19 @@ namespace TaskManagementSystem.Services
                     UserToken = jwtToken
                 };
 
+                // Update the tblUserLoginHistory table
+                var loginHistory = new TblUserLoginHistory
+                {
+                    UserName = user.UserName,
+                    Attempt = true
+                };
+                _db.TblUserLoginHistories.Add(loginHistory);
+                await _db.SaveChangesAsync();
+
+
                 return jwt;
+
+
             }
 
             return null; // Or handle the case when user is not found
@@ -102,7 +114,7 @@ namespace TaskManagementSystem.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyJWT));
 
             // Create signing credentials using the key
-            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             // Define the claims for the token
             var claims = new List<Claim>
@@ -119,6 +131,7 @@ namespace TaskManagementSystem.Services
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(10), // Set the token expiration time
                 SigningCredentials = signingCredentials,
+
             };
 
             // Create the token handler
