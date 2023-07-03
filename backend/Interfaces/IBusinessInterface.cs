@@ -2,6 +2,7 @@
 
 namespace TaskManagementSystem.Interfaces
 {
+
     public interface IBusinessInterface
     {
         Task<IEnumerable<TblCustomerBusiness>> GetAllBusinessDetails();

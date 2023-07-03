@@ -6,6 +6,7 @@ namespace TaskManagementSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    // [Authorize]
     public class UserController : ControllerBase
     {
 

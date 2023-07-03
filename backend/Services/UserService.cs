@@ -54,14 +54,52 @@ namespace TaskManagementSystem.Services
 
 
 
+        //public async Task<string> GenerateJwtTokenAsync(TblUser user)
+        //{
+
+        //    string secretKeyJWT = _configuration["Jwt:Key"];
+
+        //    // Define the secret key used to sign the token
+        //    string secretKey = secretKeyJWT; // Replace with your own secret key
+        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
+        //    // Create signing credentials using the key
+        //    var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        //    // Define the claims for the token
+        //    var claims = new List<Claim>
+        //    {
+        //        new Claim(ClaimTypes.Name, user.UserName),
+        //        // Add additional claims as needed
+        //    };
+
+        //    // Create the token descriptor
+        //    var tokenDescriptor = new SecurityTokenDescriptor
+        //    {
+        //        Subject = new ClaimsIdentity(claims),
+        //        Expires = DateTime.UtcNow.AddHours(1), // Set the token expiration time
+        //        SigningCredentials = signingCredentials
+        //    };
+
+        //    // Create the token handler
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+
+        //    // Generate the token
+        //    var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        //    // Convert the token to its string representation
+        //    var jwtToken = tokenHandler.WriteToken(token);
+
+        //    return jwtToken;
+        //}
+
+
         public async Task<string> GenerateJwtTokenAsync(TblUser user)
         {
-
             string secretKeyJWT = _configuration["Jwt:Key"];
 
             // Define the secret key used to sign the token
-            string secretKey = secretKeyJWT; // Replace with your own secret key
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyJWT));
 
             // Create signing credentials using the key
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -76,9 +114,11 @@ namespace TaskManagementSystem.Services
             // Create the token descriptor
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"], // Set the correct audience value
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(1), // Set the token expiration time
-                SigningCredentials = signingCredentials
+                Expires = DateTime.UtcNow.AddMinutes(10), // Set the token expiration time
+                SigningCredentials = signingCredentials,
             };
 
             // Create the token handler
@@ -92,6 +132,7 @@ namespace TaskManagementSystem.Services
 
             return jwtToken;
         }
+
 
 
         private string HashSHA1Password(string password)
