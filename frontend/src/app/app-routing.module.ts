@@ -35,11 +35,12 @@ import { UsersProfileComponent } from './pages/users-profile/users-profile.compo
 import { TaskManagementComponent } from './pages/task-management/task-management.component';
 import { CreateTaskManagementComponent } from './pages/create-task-management/create-task-management.component';
 import { EditTaskManagementComponent } from './pages/edit-task-management/edit-task-management.component';
-
+import { AuthGuard } from './service/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'  },
-  { path: 'dashboard', component: DashboardComponent},
+  { path: 'login', component: PagesLoginComponent },
+  { path: 'dashboard', component: DashboardComponent , canActivate: [AuthGuard] },
   { path: 'alerts', component: AlertsComponent },
   { path: 'accordion', component: AccordionComponent },
   { path: 'badges', component: BadgesComponent },
@@ -68,12 +69,11 @@ const routes: Routes = [
   { path: 'pages-contact', component: PagesContactComponent },
   { path: 'pages-error404', component: PagesError404Component },
   { path: 'pages-faq', component: PagesFaqComponent },
-  { path: 'login', component: PagesLoginComponent },
   { path: 'pages-register', component: PagesRegisterComponent },
   { path: 'user-profile', component: UsersProfileComponent },
-  { path: 'task-managment', component:  TaskManagementComponent },
-  { path: 'create-task-managment', component:  CreateTaskManagementComponent},
-  { path: 'edit-task-managment/:taskId', component:  EditTaskManagementComponent  },
+  { path: 'task-managment', component:  TaskManagementComponent , canActivate: [AuthGuard] },
+  { path: 'create-task-managment', component:  CreateTaskManagementComponent ,canActivate: [AuthGuard] },
+  { path: 'edit-task-managment/:taskId', component:  EditTaskManagementComponent, canActivate: [AuthGuard]   },
 
 
 ];

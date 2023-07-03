@@ -38,7 +38,8 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     // Clear the token from local storage
-    localStorage.removeItem('token');
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('UserName');
 
     // Redirect to the login page or any other desired page
     this.router.navigate(['/login']);
