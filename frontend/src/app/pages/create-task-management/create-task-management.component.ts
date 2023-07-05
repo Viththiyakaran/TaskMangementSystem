@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit,ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {  FormBuilder, FormGroup, FormControl, Validators  } from '@angular/forms';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import * as $ from 'jquery';
 import 'select2';
@@ -25,7 +26,7 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
   selectedClosedUserId : any;
   taskArray: any[] = [];
   ticketIdAlert : any;
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,private elementRef: ElementRef) {}
+  constructor(private formBuilder: FormBuilder, private http: HttpClient,private elementRef: ElementRef,private router: Router) { }
 
   ngOnInit() {
 
@@ -78,16 +79,6 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
   }
 
 
-  onOpenBySelected(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const userId = target.value;
-    if (userId) {
-      // Assign the selected businessId to the form control
-      this.taskForm.patchValue({
-        userId: userId
-      });
-    }
-  }
 
   onAssignedToSelected(event: Event) {
     const target = event.target as HTMLSelectElement;
@@ -113,7 +104,6 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     $('#businessId').select2();
-    $('#openBy').select2();
     $('#assignedTo').select2();
     $('#closedBy').select2();
 
@@ -123,10 +113,6 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
     });
 
 
-    $('#openBy').on('change', (event) => {
-      this.selectedUserId = $(event.target).val();
-      console.log('Selected value:', this.selectedUserId);
-    });
 
     $('#assignedTo').on('change', (event) => {
       this.selectedAssignedUserId = $(event.target).val();
@@ -157,6 +143,9 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
     });
   }
 
+
+
+
   onSubmit() {
     const currentDate = new Date().toISOString();
 
@@ -181,12 +170,16 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
             this.taskForm.reset();
             $('#businessId').val('').trigger('change');
             $('#closedBy').val('').trigger('change');
-            $('#openBy').val('').trigger('change');
             $('#assignedTo').val('').trigger('change');
+
             this.isSuccess = true;
             if (this.isSuccess) {
               this.getGeneratedTicketId();
             }
+           // this.getGeneratedTicketId();
+
+
+
           },
           error => {
             console.error('Error saving data', error);
@@ -195,12 +188,24 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
+
+
+
   getGeneratedTicketId() {
     this.http.get<string>('http://localhost:5263/api/CallLog/GenerateTicketId')
       .subscribe((id: string) => {
         // Assign the fetched ID to a variable or display it directly
         this.ticketIdAlert = id;
+        this.redirectToTaskDetails(this.ticketIdAlert);
       });
+  }
+
+
+
+  redirectToTaskDetails(taskId: string): void {
+    const url = `/edit-task-management/${taskId}`;
+    console.log('My URL',url);
+    this.router.navigate([url]);
   }
 
   loadAllBusiness() {
@@ -234,7 +239,20 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
           this.userArray = res;
           this.userArray2 = res;
           this.userArray3 = res;
-          console.log(res);
+          console.log('V1 Array User' ,this.userArray);
+
+
+          // Find person ID by username
+        const username = localStorage.getItem('UserName');// Replace with the actual username you want to search for
+        const user = this.userArray.find((user: any) => user.userName === username);
+        if (user) {
+          const userId = user.userId;
+          this.selectedUserId =userId;
+          console.log('Person ID:', userId);
+        } else {
+          console.log('User not found');
+        }
+
         },
         error => {
           console.error('Error loading users', error);

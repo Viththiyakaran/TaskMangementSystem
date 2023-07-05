@@ -10,23 +10,14 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  UserName: string ='';
+  UserName: any;
 
 
   constructor(@Inject(DOCUMENT) private document: Document, private router:Router) { }
 
   ngOnInit(): void {
-      //   // Retrieve the token from local storage
-      // const UserName = localStorage.getItem('UserName');
+    this.UserName = localStorage.getItem('UserName'); // Get the JWT token from localStorage
 
-      // // Check if the token is present
-      // if (UserName) {
-      //   // Decode the token
-      //   const decodedToken = this.jwtHelper.decodeToken(UserName);
-
-      //   // Extract the UserName from the decoded token
-      //   this.UserName = decodedToken.UserName;
-      // }
   }
 
 
@@ -39,7 +30,7 @@ export class HeaderComponent implements OnInit {
   logout(): void {
     // Clear the token from local storage
     localStorage.removeItem('userToken');
-    localStorage.removeItem('UserName');
+    localStorage.removeItem('userName');
 
     // Redirect to the login page or any other desired page
     this.router.navigate(['/login']);

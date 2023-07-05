@@ -1,13 +1,12 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Data Tables</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active">Data</li>
-      </ol>
-    </nav>
+    <h1>Task Management</h1>
+      <nav>
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/task-management">Home</a></li>
+              <li class="breadcrumb-item active">Tasks</li>
+          </ol>
+      </nav>
   </div>
   <section class="section">
     <div class="row">
@@ -126,7 +125,7 @@
                     </select>
                   </div>
                   <div class="row mt-3">
-                    <button type="submit" class="btn btn-primary">Completed</button>
+                    <button type="submit" class="btn btn-primary">Status Update</button>
                   </div>
                 </form>
               </div>
@@ -169,6 +168,8 @@
               <div *ngFor="let note of taskNotes">
                 <div class="form-group" style="margin-bottom: 20px;">
                   <!-- <label for="initialNote" style="font-weight: bold;">Log Note</label> -->
+                  <p class="bg-primary text-white p-2 ">Log By: {{ note.logBy }}  ||  Appointment Date :{{ note.appointmentDate }}</p>
+
                   <div class="form-group" style="position: relative;">
                     <ckeditor [(ngModel)]="note.note"></ckeditor>
                     <div style="position: absolute; top: 10px; right: 10px;">

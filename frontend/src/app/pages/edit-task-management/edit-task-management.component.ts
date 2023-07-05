@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import * as $ from 'jquery';
 import 'select2';
 
@@ -50,7 +51,7 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
   ) {}
 
   ngOnInit() {
@@ -171,14 +172,14 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
   }
   onSubmitNote() {
     const currentDate = new Date().toISOString();
-
+    const logBy = localStorage.getItem('UserName');
     if (this.taskFormNotes.valid) {
       const formData = {
       ...this.taskFormNotes.value,
       ticketId	: this.task[0].ticketId,
       noteID : 0,
       logDate : currentDate,
-      logBy : this.task[0].openBy,
+      logBy :  this.selectedUserId,
       note:  this.taskFormNotes.value.note,
       status :   this.taskForm.value.status,
       assignedTo :  this.task[0].assignedTo,
@@ -192,6 +193,11 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
       (response: any) => {
         console.log('API response Note:', response);
         // Handle the response data in your component logic
+        this.loadNotesById(this.task[0].ticketId);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        console.log('API Refresh', this.task[0].ticketId);
+        this.taskFormNotes?.get('note')?.setValue('');
+        this.taskFormNotes?.reset();
       },
       (error) => {
         console.error('API error:', error);
@@ -223,6 +229,13 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
       clCustomerId: ['']
     });
   }
+
+  redirectToTaskDetails(taskId: string): void {
+    const url = `/task-management`;
+    console.log('My URL',url);
+    this.router.navigate([url]);
+  }
+
   onSubmit() {
     const currentDate = new Date().toISOString();
     let cDateUpdate;
@@ -258,22 +271,29 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
       };
 
       const taskId = this.route.snapshot.params['taskId'];
-      const url = `http://localhost:5263/api/CallLog/PutCallLogTaskInfo/${taskId}`;
-      this.http.put(url, updatedTask).subscribe(
-        (response: any) => {
-          console.log('Task updated successfully:', response);
-          // Perform any other actions after successful update
-        },
-        (error) => {
-          console.error('Error updating task:', error);
-          // Handle the error case
-        }
-      );
 
+      const confirmation = confirm('Are you sure you want to update the task and navigate to task details?');
 
+      if(confirmation)
+      {
+          const url = `http://localhost:5263/api/CallLog/PutCallLogTaskInfo/${taskId}`;
+          this.http.put(url, updatedTask).subscribe(
+          (response: any) => {
+            console.log('Task updated successfully:', response);
+            // Perform any other actions after successful update
+            this.redirectToTaskDetails(taskId);
+          },
+          (error) => {
+            console.error('Error updating task:', error);
+            // Handle the error case
+          }
+        );
+      }
 
     }
   }
+
+
 
   loadAllBusiness() {
     this.http
@@ -302,16 +322,28 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
   }
 
   loadAllUsers() {
-    this.http
-      .get('http://localhost:5263/api/User/GetAllUserInfo')
+    this.http.get("http://localhost:5263/api/User/GetAllUserInfo")
       .subscribe(
         (res: any) => {
           this.userArray = res;
           this.userArray2 = res;
           this.userArray3 = res;
-          console.log(res);
+          console.log('V1 Array User' ,this.userArray);
+
+
+          // Find person ID by username
+        const username = localStorage.getItem('UserName');// Replace with the actual username you want to search for
+        const user = this.userArray.find((user: any) => user.userName === username);
+        if (user) {
+          const userId = user.userId;
+          this.selectedUserId =userId;
+          console.log('Person ID:', userId);
+        } else {
+          console.log('User not found');
+        }
+
         },
-        (error) => {
+        error => {
           console.error('Error loading users', error);
         }
       );

@@ -103,27 +103,67 @@ export class TaskManagementComponent implements OnInit {
   }
 
 
-  deleteTask(task: any): void {
+  // deleteTask(task: any): void {
 
-    this.http.delete(`http://localhost:5263/api/CallLog/DeleteTask/${task.ticketId}`)
-    .subscribe(
-      (response: any) => {
-        console.log('Task deleted successfully', response);
-        // Refresh the task list or perform any necessary actions after deletion
-        this.loadAllTasks();
+  //   this.http.delete(`http://localhost:5263/api/CallLog/DeleteTask/${task.ticketId}`)
+  //   .subscribe(
+  //     (response: any) => {
+  //       console.log('Task deleted successfully', response);
+  //       // Refresh the task list or perform any necessary actions after deletion
+  //       this.loadAllTasks();
+  //     },
+  //     (error: any) => {
+  //       console.error('Error deleting task', error);
+  //     }
+  //   );
+
+  // }
+
+  deleteTask(task: any): void {
+    const confirmation = confirm('Are you sure you want to delete this task?');
+
+    if (confirmation) {
+      this.http.delete(`http://localhost:5263/api/CallLog/DeleteTask/${task.ticketId}`)
+        .subscribe(
+          (response: any) => {
+            console.log('Task deleted successfully', response);
+            // Refresh the task list or perform any necessary actions after deletion
+            this.loadAllTasks();
+          },
+          (error: any) => {
+            console.error('Error deleting task', error);
+          }
+        );
+    }
+  }
+
+  updateTaskStatus(task: any): void {
+    const url = `http://localhost:5263/api/tasks/${task.id}`;
+
+    // Prepare the updated task object with the new status
+    const updatedTask = {
+      ...task,
+      status: task.status.trim() === 'Completed' ? 'Incomplete' : 'Completed'
+    };
+
+    // Send the updated task to the backend
+    this.http.put(url, updatedTask).subscribe(
+      response => {
+        console.log('Task status updated successfully:', response);
       },
-      (error: any) => {
-        console.error('Error deleting task', error);
+      error => {
+        console.log('Error updating task status:', error);
       }
     );
-
   }
+
+
 
 
   editTask(task: any): void {
     // Perform the necessary actions to handle the edit functionality
     const taskId = task.ticketId;
-    this.router.navigate(['/edit-task-managment', taskId]);
+    this.router.navigate(['/edit-task-management', taskId]);
 
     console.log("Edit task:", task);
     // You can navigate to the edit page or display a modal for editing the task

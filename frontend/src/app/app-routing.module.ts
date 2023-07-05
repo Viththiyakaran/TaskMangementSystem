@@ -71,9 +71,9 @@ const routes: Routes = [
   { path: 'pages-faq', component: PagesFaqComponent },
   { path: 'pages-register', component: PagesRegisterComponent },
   { path: 'user-profile', component: UsersProfileComponent },
-  { path: 'task-managment', component:  TaskManagementComponent , canActivate: [AuthGuard] },
-  { path: 'create-task-managment', component:  CreateTaskManagementComponent ,canActivate: [AuthGuard] },
-  { path: 'edit-task-managment/:taskId', component:  EditTaskManagementComponent, canActivate: [AuthGuard]   },
+  { path: 'task-management', component:  TaskManagementComponent , canActivate: [AuthGuard] },
+  { path: 'create-task-management', component:  CreateTaskManagementComponent ,canActivate: [AuthGuard] },
+  { path: 'edit-task-management/:taskId', component:  EditTaskManagementComponent, canActivate: [AuthGuard]   },
 
 
 ];

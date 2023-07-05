@@ -1,19 +1,18 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Data Tables</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active">Data</li>
-      </ol>
-    </nav>
+    <h1>Task Management</h1>
+      <nav>
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/task-management">Home</a></li>
+              <li class="breadcrumb-item active">Tasks</li>
+          </ol>
+      </nav>
   </div>
   <section class="section">
     <div class="row">
 
       <div class="col-lg-6">
-        <a routerLink="/task-managment" class="btn btn-primary m-2">Back To Task</a>
+        <a routerLink="/task-management" class="btn btn-primary m-2">Back To Task</a>
         <div class="card">
           <div class="card-body">
             <table class="table datatable">
@@ -51,13 +50,17 @@
             <div *ngIf="taskForm">
               <h5 class="card-title">Create the task</h5>
               <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+
                 <div class="form-group">
                   <label for="businessId">Business ID</label>
                   <select class="form-control" id="businessId" formControlName="businessId" (change)="onBusinessIdSelected($event)">
                     <option value="">Select Business ID</option>
-                    <option *ngFor="let option of businessArray" [value]="option.businessId">{{ option.businessId }} - {{ option.busName }}</option>
+                    <option *ngFor="let option of businessArray" [value]="option.businessId">
+                      {{ option.businessId }} - {{ option.busName }}
+                    </option>
                   </select>
                 </div>
+
                 <div class="form-group">
                   <label for="callType">Call Type</label>
                   <select class="form-control" id="callType" formControlName="callType">
@@ -77,13 +80,7 @@
                     <option value="Light">Light</option>
                   </select>
                 </div>
-                <div class="form-group">
-                  <label for="openBy">Open By</label>
-                  <select class="form-control" id="openBy" formControlName="openBy" (change)="onOpenBySelected($event)">
-                    <option value="">Select the support engineer</option>
-                    <option *ngFor="let user of userArray" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
-                  </select>
-                </div>
+
                 <div class="form-group">
                   <label for="assignedTo">Assigned To</label>
                   <select class="form-control" id="assignedTo" formControlName="assignedTo" (change)="onAssignedToSelected($event)">
@@ -144,7 +141,7 @@
             </div>
           </div>
 
-          <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" *ngIf="isSuccess" role="alert"> A simple success alert with solid color—check it out! {{ticketIdAlert}}
+          <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" *ngIf="isSuccess" role="alert"> TASK TICKET ID : {{ticketIdAlert}}
              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button></div>
         </div>
       </div>
