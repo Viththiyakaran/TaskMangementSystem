@@ -30,10 +30,12 @@ namespace TaskManagementSystem.Services
         {
             var ticketIdParam = new SqlParameter("@TicketId", callLogNote.TicketId);
             var logDateParam = new SqlParameter("@LogDate", callLogNote.LogDate);
-            var logByParam = new SqlParameter("@LogBy", callLogNote.LogBy);
+            var LogBy = _db.TblUsers.FirstOrDefault(u => u.UserId == callLogNote.LogBy);
+            var logByParam = new SqlParameter("@LogBy", LogBy.UserName);
             var noteParam = new SqlParameter("@Note", callLogNote.Note);
             var statusParam = new SqlParameter("@Status", callLogNote.Status);
-            var assignedToParam = new SqlParameter("@AssignedTo", callLogNote.AssignedTo);
+            var AssignedTo = _db.TblUsers.FirstOrDefault(u => u.UserId == callLogNote.AssignedTo);
+            var assignedToParam = new SqlParameter("@AssignedTo", AssignedTo.UserName);
             var appointmentTypeParam = new SqlParameter("@AppointmentType", callLogNote.AppointmentType);
             var appointmentDateParam = new SqlParameter("@AppointmentDate", callLogNote.AppointmentDate);
 

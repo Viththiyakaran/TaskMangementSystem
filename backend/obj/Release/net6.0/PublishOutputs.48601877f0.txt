@@ -5,6 +5,7 @@ D:\TaskMangementSystem\backend\obj\Release\net6.0\PubTmp\Out\TaskManagementSyste
 D:\TaskMangementSystem\backend\obj\Release\net6.0\PubTmp\Out\TaskManagementSystem.runtimeconfig.json
 D:\TaskMangementSystem\backend\obj\Release\net6.0\PubTmp\Out\TaskManagementSystem.pdb
 D:\TaskMangementSystem\backend\obj\Release\net6.0\PubTmp\Out\FluentAssertions.dll
+D:\TaskMangementSystem\backend\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\TaskMangementSystem\backend\obj\Release\net6.0\PubTmp\Out\Microsoft.Data.SqlClient.dll
 D:\TaskMangementSystem\backend\obj\Release\net6.0\PubTmp\Out\Microsoft.EntityFrameworkCore.dll
 D:\TaskMangementSystem\backend\obj\Release\net6.0\PubTmp\Out\Microsoft.EntityFrameworkCore.Abstractions.dll

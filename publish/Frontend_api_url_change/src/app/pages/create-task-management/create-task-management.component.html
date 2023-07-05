@@ -1,0 +1,150 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Task Management</h1>
+      <nav>
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/task-management">Home</a></li>
+              <li class="breadcrumb-item active">Tasks</li>
+          </ol>
+      </nav>
+  </div>
+  <section class="section">
+    <div class="row">
+
+      <div class="col-lg-6">
+        <a routerLink="/task-management" class="btn btn-primary m-2">Back To Task</a>
+        <div class="card">
+          <div class="card-body">
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th scope="col">Status</th>
+                  <th scope="col">#</th>
+                  <th scope="col">Call Type</th>
+                  <th scope="col">Business Name</th>
+                  <th scope="col">Assigned To</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let task of taskArray">
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="gridCheck1" [checked]="task.status.trim() === 'Completed'">
+                    </div>
+                  </td>
+                  <td  scope="row">{{ task.ticketId }}</td>
+                  <td>{{ task.callType }}</td>
+                  <td>{{ task.businessName }}</td>
+                  <td>{{ task.assignedName }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <a routerLink="/task-managment" class="btn btn-primary m-2" style="visibility: hidden;">Back To Task</a>
+
+        <div class="card">
+          <div class="card-body">
+            <div *ngIf="taskForm">
+              <h5 class="card-title">Create the task</h5>
+              <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-group">
+                  <label for="businessId">Business ID</label>
+                  <select class="form-control" id="businessId" formControlName="businessId" (change)="onBusinessIdSelected($event)">
+                    <option value="">Select Business ID</option>
+                    <option *ngFor="let option of businessArray" [value]="option.businessId">
+                      {{ option.businessId }} - {{ option.busName }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="callType">Call Type</label>
+                  <select class="form-control" id="callType" formControlName="callType">
+                    <option value="Support">Support</option>
+                    <option value="Development">Development</option>
+                    <option value="Sales">Sales</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="serviceType">Service Type</label>
+                  <select class="form-control" id="serviceType" formControlName="serviceType">
+                    <option value="ePOS">ePOS</option>
+                    <option value="Hospitality">Hospitality</option>
+                    <option value="CCTV">CCTV</option>
+                    <option value="Alarm">Alarm</option>
+                    <option value="Light">Light</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="assignedTo">Assigned To</label>
+                  <select class="form-control" id="assignedTo" formControlName="assignedTo" (change)="onAssignedToSelected($event)">
+                    <option value="">Select the support engineer</option>
+                    <option *ngFor="let user of userArray2" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="appointmentDate">Appointment Date</label>
+                  <input type="datetime-local" class="form-control" id="appointmentDate" formControlName="appointmentDate">
+                </div>
+                <div class="form-group">
+                  <label for="appointmentType">Appointment Type</label>
+                  <select class="form-control" id="appointmentType" formControlName="appointmentType">
+                    <option value="No Appointment">No Appointment</option>
+                    <option value="E-Mail">E-Mail</option>
+                    <option value="Talk">Talk</option>
+                    <option value="Site Survey">Site Survey</option>
+                    <option value="Installation">Installation</option>
+                    <option value="Troubleshoot">Troubleshoot</option>
+                    <option value="Repair">Repair</option>
+                  </select>
+                </div>
+                <!-- <div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="form-control" id="status" formControlName="status">
+                    <option value="">Select Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div> -->
+                <!-- <div class="form-group">
+                  <label for="lastUpdate">Last Update</label>
+                  <input type="datetime-local" class="form-control" id="lastUpdate" formControlName="lastUpdate">
+                </div> -->
+                <!-- <div class="form-group">
+                  <label for="closedDate">Closed Date</label>
+                  <input type="datetime-local" class="form-control" id="closedDate" formControlName="closedDate">
+                </div>
+                <div class="form-group">
+                  <label for="closedBy">Closed By</label>
+                  <select class="form-control" id="closedBy" formControlName="closedBy" (change)="onClosedBySelected($event)">
+                    <option value="">Select the support engineer</option>
+                    <option *ngFor="let user of userArray3" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
+                  </select>
+                </div> -->
+                <div class="form-group">
+                  <label for="initialNote">Initial Note</label>
+                  <!-- <textarea class="form-control" id="initialNote" formControlName="initialNote" style="height: 100px"></textarea> -->
+                  <ckeditor  id="initialNote" formControlName="initialNote" ></ckeditor>
+                </div>
+
+                <div class="row mt-3">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" *ngIf="isSuccess" role="alert"> TASK TICKET ID : {{ticketIdAlert}}
+             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

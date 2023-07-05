@@ -29,39 +29,45 @@ namespace TaskManagementSystem.Services
 
         public async Task<TblUserJWT> LoginAsync(string userName, string userPassword)
         {
-            string hashedPassword = HashSHA1Password(userPassword);
-
-            var user = await _db.TblUsers
-                .FirstOrDefaultAsync(us => us.UserName.Equals(userName) && us.UserPassword.Equals(hashedPassword) && us.IsActive == true);
-
-            if (user != null)
+            try
             {
-                // Generate JWT token for the authenticated user
-                string jwtToken = await GenerateJwtTokenAsync(user);
+                string hashedPassword = HashSHA1Password(userPassword);
 
-                TblUserJWT jwt = new TblUserJWT
+                var user = await _db.TblUsers
+                    .FirstOrDefaultAsync(us => us.UserName.Equals(userName) && us.UserPassword.Equals(hashedPassword) && us.IsActive == true);
+
+                if (user != null)
                 {
-                    UserName = user.UserName,
-                    UserToken = jwtToken
-                };
+                    // Generate JWT token for the authenticated user
+                    string jwtToken = await GenerateJwtTokenAsync(user);
 
-                // Update the tblUserLoginHistory table
-                var loginHistory = new TblUserLoginHistory
-                {
-                    UserName = user.UserName,
-                    Attempt = true
-                };
-                _db.TblUserLoginHistories.Add(loginHistory);
-                await _db.SaveChangesAsync();
+                    TblUserJWT jwt = new TblUserJWT
+                    {
+                        UserName = user.UserName,
+                        UserToken = jwtToken
+                    };
 
+                    var loginHistory = new TblUserLoginHistory
+                    {
+                        UserName = user.UserName,
+                        Attempt = true
+                    };
+                    _db.TblUserLoginHistories.Add(loginHistory);
+                    await _db.SaveChangesAsync();
 
-                return jwt;
+                    return jwt;
+                }
 
-
+                return null; // Or handle the case when user is not found
             }
-
-            return null; // Or handle the case when user is not found
+            catch (Exception ex)
+            {
+                // Handle the exception, log the error, or perform any necessary actions
+                // For example, you can throw a custom exception or return an error message
+                throw new Exception("An error occurred during login.", ex);
+            }
         }
+
 
 
 

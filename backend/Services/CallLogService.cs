@@ -42,7 +42,7 @@ namespace TaskManagementSystem.Services
                                     BusinessName = businesses.BusName,
                                     AssignedName = users.Name
                                 })
-                                .OrderByDescending(t => t.TicketId)
+                                .OrderByDescending(t => t.OpenDate)
                                 .Take(100)
                                 .ToListAsync();
 

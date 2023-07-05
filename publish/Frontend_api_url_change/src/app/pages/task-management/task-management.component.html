@@ -1,0 +1,70 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+      <h1>Task Management</h1>
+      <nav>
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+              <li class="breadcrumb-item active">Tasks</li>
+          </ol>
+      </nav>
+  </div>
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <a routerLink="/create-task-management" class="btn btn-primary m-2">Create Task</a>
+        <div class="card">
+          <div class="card-body">
+            <div class="row mt-3 mb-3">
+              <label for="inputText" class="col-sm-1 col-form-label"> <th scope="col">Search</th></label>
+              <div class="col-sm-10"> <input type="text" name="businessName"  placeholder="Search" [(ngModel)]="ticketId" (ngModelChange)="Search()" (keyup)="onKeyUp($event)" class="form-control"></div>
+           </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" (click)="Sort('status')">Status <i [ngClass]="getSortIcon('status')"></i></th>
+                  <th scope="col" (click)="Sort('ticketId')"># <i [ngClass]="getSortIcon('ticketId')"></i></th>
+                  <th scope="col" (click)="Sort('callType')">Call Type <i [ngClass]="getSortIcon('callType')"></i></th>
+                  <th scope="col" (click)="Sort('businessName')">Business Name <i [ngClass]="getSortIcon('businessName')"></i></th>
+                  <th scope="col" (click)="Sort('serviceType')">Service Type <i [ngClass]="getSortIcon('serviceType')"></i></th>
+                  <th scope="col" (click)="Sort('openDate')">Open Date <i [ngClass]="getSortIcon('openDate')"></i></th>
+                  <th scope="col" (click)="Sort('assignedName')">Assigned To <i [ngClass]="getSortIcon('assignedName')"></i></th>
+                  <th scope="col" (click)="Sort('lastUpdate')">Last Update <i [ngClass]="getSortIcon('lastUpdate')"></i></th>
+                  <th scope="col" >More</th>
+                  <th scope="col" > Delete</th>
+                  <!-- <th scope="col">CL Customer ID</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let task of taskArray | filter: ticketId | orderBy: 'ticketId':true  | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="gridCheck1" [checked]="task.status.trim() === 'Completed'"  (change)="updateTaskStatus(task)">
+                    </div>
+                  </td>
+                  <td  scope="row">{{ task.ticketId }}</td>
+                  <td>{{ task.callType }}</td>
+                  <td>{{ task.businessName }}</td>
+                  <td>{{ task.serviceType }}</td>
+                  <td>{{ task.openDate }}</td>
+                  <td>{{ task.assignedName }}</td>
+                  <td>{{ task.lastUpdate }}</td>
+                  <td> <button type="button" class="btn btn-primary rounded-pill" (click)="editTask(task)">More</button></td>
+                  <td> <button type="button" class="btn btn-danger rounded-pill" (click)="deleteTask(task)">Delete</button></td>
+                  <!-- <td>{{ task.clCustomerId }}</td> -->
+                </tr>
+              </tbody>
+            </table>
+            <div class="row">
+              <div class="col-sm-12">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+

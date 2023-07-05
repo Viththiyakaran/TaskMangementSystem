@@ -68,3 +68,4 @@ D:\TaskMangementSystem\backend\obj\Release\net6.0\refint\TaskManagementSystem.dl
 D:\TaskMangementSystem\backend\obj\Release\net6.0\TaskManagementSystem.pdb
 D:\TaskMangementSystem\backend\obj\Release\net6.0\TaskManagementSystem.genruntimeconfig.cache
 D:\TaskMangementSystem\backend\obj\Release\net6.0\ref\TaskManagementSystem.dll
+D:\TaskMangementSystem\backend\bin\Release\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
