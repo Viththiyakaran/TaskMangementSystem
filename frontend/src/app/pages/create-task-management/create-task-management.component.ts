@@ -26,21 +26,30 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
   selectedClosedUserId : any;
   taskArray: any[] = [];
   ticketIdAlert : any;
+  p: number = 1; // Declare the 'p' property for pagination
   constructor(private formBuilder: FormBuilder, private http: HttpClient,private elementRef: ElementRef,private router: Router) { }
 
   ngOnInit() {
 
-    var s = document.createElement("script");
-    s.type = "text/javascript";
-    s.src = "../assets/js/main.js";
-    this.elementRef.nativeElement.appendChild(s);
+    // var s = document.createElement("script");
+    // s.type = "text/javascript";
+    // s.src = "../assets/js/main.js";
+    // this.elementRef.nativeElement.appendChild(s);
 
     this.initializeForm();
     this.loadAllBusiness();
     this.loadAllUsers();
-    this.loadAllTasks();
+    this.loadAllTasksByUser();
 
 
+
+
+
+  }
+
+  // Some method or event handler in your component
+  goToEditTaskManagement(taskId: number): void {
+    this.router.navigate(['/edit-task-management', taskId]);
   }
 
   initializeForm() {
@@ -221,15 +230,36 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
       );
   }
 
-  async loadAllTasks() {
-    try {
-      const res = await this.http.get("http://localhost:5263/api/CallLog/GetAllCallLogTaskInfo").toPromise();
-      this.taskArray = res as any[];
-      console.log(res);
-    } catch (error) {
-      console.error('Error loading tasks', error);
-    }
+  // async loadAllTasksByUser(assignedTo: string) {
+  //   try {
+  //     const res = await this.http.get(`http://localhost:5263//api/CallLog/GetCallLogTaskInfoByUser/${taskId}`).toPromise();
+  //     this.taskArray = res as any[];
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.error('Error loading tasks', error);
+  //   }
+  // }
+
+  loadAllTasksByUser() {
+    const assignedTo = localStorage.getItem('UserName');
+    console.log("cccc" + assignedTo);
+    const url = `http://localhost:5263/api/CallLog/GetCallLogTaskInfoByUser/${assignedTo}`;
+    this.http.get(url).subscribe(
+      (res: any) => {
+        this.taskArray = res as any[];
+        console.log('Task notes information:', this.taskArray);
+        // Handle the task notes information in your component logic
+      },
+      (error) => {
+        console.error('Error retrieving task notes information:', error);
+        // Handle the error case
+        // For example, you could set this.taskArray to an empty array or display an error message.
+      }
+    );
   }
+
+
+
 
 
   loadAllUsers() {
