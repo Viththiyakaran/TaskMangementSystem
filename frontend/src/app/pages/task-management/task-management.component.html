@@ -3,7 +3,7 @@
       <h1>Task Management</h1>
       <nav>
           <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+              <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
               <li class="breadcrumb-item active">Tasks</li>
           </ol>
       </nav>
@@ -43,11 +43,11 @@
                   </td>
                   <td  scope="row">{{ task.ticketId }}</td>
                   <td>{{ task.callType }}</td>
-                  <td>{{ task.businessName }}</td>
+                  <td>{{ task.businessId  }} - {{ task.businessName }}</td>
                   <td>{{ task.serviceType }}</td>
-                  <td>{{ task.openDate }}</td>
+                  <td>{{ task.openDate |date :"dd MMMM yyyy" }}</td>
                   <td>{{ task.assignedName }}</td>
-                  <td>{{ task.lastUpdate }}</td>
+                  <td>{{ task.lastUpdate |date :"dd MMMM yyyy" }}</td>
                   <td> <button type="button" class="btn btn-primary rounded-pill" (click)="editTask(task)">More</button></td>
                   <td> <button type="button" class="btn btn-danger rounded-pill" (click)="deleteTask(task)">Delete</button></td>
                   <!-- <td>{{ task.clCustomerId }}</td> -->

@@ -3,7 +3,7 @@
     <h1>Task Management</h1>
       <nav>
           <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a routerLink="/task-management">Home</a></li>
+              <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
               <li class="breadcrumb-item active">Tasks</li>
           </ol>
       </nav>
@@ -117,13 +117,13 @@
                       <option value="Completed">Completed</option>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="closedBy">Closed By</label>
                     <select class="form-control" id="closedBy" formControlName="closedBy" (change)="onClosedBySelected($event)">
 
                       <option *ngFor="let user of userArray3" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
                     </select>
-                  </div>
+                  </div> -->
                   <div class="row mt-3">
                     <button type="submit" class="btn btn-primary">Status Update</button>
                   </div>
@@ -168,7 +168,7 @@
               <div *ngFor="let note of taskNotes">
                 <div class="form-group" style="margin-bottom: 20px;">
                   <!-- <label for="initialNote" style="font-weight: bold;">Log Note</label> -->
-                  <p class="bg-primary text-white p-2 ">Log By: {{ note.logBy }}  ||  Appointment Date :{{ note.appointmentDate }}</p>
+                  <p class="bg-primary text-white p-2 ">Log By: {{ note.logBy }}  ||  Appointment Date :{{ note.appointmentDate  |date  }}</p>
 
                   <div class="form-group" style="position: relative;">
                     <ckeditor [(ngModel)]="note.note"></ckeditor>

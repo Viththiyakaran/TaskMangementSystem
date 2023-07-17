@@ -248,6 +248,9 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
 
     if (this.taskForm.valid) {
       const formData: FormGroup = this.taskForm;
+
+      this.selectedClosedUserId =localStorage.getItem('UserId');
+
       // const selectedClosedUserId = this.taskForm.value.closedBy;
 
       const updatedTask = {
@@ -265,7 +268,7 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
         status: this.taskForm.value.status,
         lastUpdate: currentDate,
         closedDate: cDateUpdate,
-        closedBy: this.selectedClosedUserId === undefined ? this.task[0].closedBy : this.selectedClosedUserId,
+        closedBy: this.selectedClosedUserId,
         initialNote: this.task[0].initialNote,
         clCustomerId: this.task[0].clCustomerId,
       };
@@ -387,16 +390,16 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onClosedBySelected(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const userId = target.value;
-    if (userId) {
-      // Assign the selected userId to the form control
-      this.taskForm.patchValue({
-        closedBy: userId,
-      });
-    }
-  }
+  // onClosedBySelected(event: Event) {
+  //   const target = event.target as HTMLSelectElement;
+  //   const userId = target.value;
+  //   if (userId) {
+  //     // Assign the selected userId to the form control
+  //     this.taskForm.patchValue({
+  //       closedBy: userId,
+  //     });
+  //   }
+  // }
 
 
 
