@@ -5,6 +5,7 @@ using TaskManagementSystem.Models;
 
 namespace TaskManagementSystem.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -36,6 +37,9 @@ namespace TaskManagementSystem.Controllers
             var createdCallLogNote = await _logNoteService.CreateCallLogNote(callLogNote);
             return createdCallLogNote;
         }
+
+
+
 
 
 

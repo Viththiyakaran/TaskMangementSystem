@@ -167,6 +167,85 @@ namespace TaskManagementSystem.Services
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsByMonthly()
+        {
+            DateTime now = DateTime.Now;
+            DateTime startOfMonth = new DateTime(now.Year, now.Month, 1);
+            DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+            var result = await (
+                from callLogs in _db.TblCallLogs
+                join businesses in _db.TblCustomerBusinesses on callLogs.BusinessId equals businesses.BusinessId
+                join users in _db.TblUsers on callLogs.AssignedTo equals users.UserId
+                where businesses.IsActive == true && callLogs.OpenDate >= startOfMonth && callLogs.OpenDate <= endOfMonth
+                orderby callLogs.OpenDate descending
+                select new TblCallLogTaskInfo
+                {
+                    Status = callLogs.Status,
+                    TicketId = callLogs.TicketId,
+                    CallType = callLogs.CallType,
+                    BusinessId = callLogs.BusinessId,
+                    ServiceType = callLogs.ServiceType,
+                    OpenDate = callLogs.OpenDate,
+                    OpenBy = callLogs.OpenBy,
+                    AssignedTo = callLogs.AssignedTo,
+                    AppointmentDate = callLogs.AppointmentDate,
+                    AppointmentType = callLogs.AppointmentType,
+                    LastUpdate = callLogs.LastUpdate,
+                    ClosedDate = callLogs.ClosedDate,
+                    ClosedBy = callLogs.ClosedBy,
+                    InitialNote = callLogs.InitialNote,
+                    ClCustomerId = callLogs.ClCustomerId,
+                    BusinessName = businesses.BusName,
+                    AssignedName = users.Name
+                })
+                .ToListAsync();
+
+            return result;
+
+
+        }
+
+        public async Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsByPendings()
+        {
+            DateTime now = DateTime.Now;
+            DateTime startOfYear = new DateTime(now.Year - 1, 1, 1);
+            DateTime endOfYear = new DateTime(now.Year, 1, 1).AddDays(-1);
+
+            var result = await (
+                from callLogs in _db.TblCallLogs
+                join businesses in _db.TblCustomerBusinesses on callLogs.BusinessId equals businesses.BusinessId
+                join users in _db.TblUsers on callLogs.AssignedTo equals users.UserId
+                where businesses.IsActive == true && callLogs.Status.Contains("Pending")
+                orderby callLogs.OpenDate descending
+                select new TblCallLogTaskInfo
+                {
+                    Status = callLogs.Status,
+                    TicketId = callLogs.TicketId,
+                    CallType = callLogs.CallType,
+                    BusinessId = callLogs.BusinessId,
+                    ServiceType = callLogs.ServiceType,
+                    OpenDate = callLogs.OpenDate,
+                    OpenBy = callLogs.OpenBy,
+                    AssignedTo = callLogs.AssignedTo,
+                    AppointmentDate = callLogs.AppointmentDate,
+                    AppointmentType = callLogs.AppointmentType,
+                    LastUpdate = callLogs.LastUpdate,
+                    ClosedDate = callLogs.ClosedDate,
+                    ClosedBy = callLogs.ClosedBy,
+                    InitialNote = callLogs.InitialNote,
+                    ClCustomerId = callLogs.ClCustomerId,
+                    BusinessName = businesses.BusName,
+                    AssignedName = users.Name
+                })
+                .ToListAsync();
+
+            return result;
+
+
+
+        }
+
         //public async Task<IEnumerable<TblLogNote>> GetCallLogNotesById(int id)
         //{
         //    //var result = await (from callLogs in _db.TblCallLogs

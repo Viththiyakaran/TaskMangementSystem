@@ -11,7 +11,7 @@ namespace TaskManagementSystem.Interfaces
         Task<bool> DeleteCallLog(int id);
         Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsTaskInfo();
         Task<string> GenerateTicketId();
-
-
+        Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsByMonthly();
+        Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsByPendings();
     }
 }

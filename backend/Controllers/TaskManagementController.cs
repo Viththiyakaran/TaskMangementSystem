@@ -5,6 +5,7 @@ using TaskManagementSystem.Models;
 
 namespace TaskManagement.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -87,5 +88,19 @@ namespace TaskManagement.Controllers
         //    }
         //    return callNotesLog;
         //}
+
+
+        [HttpGet("GetAllCallLogsByMonthly")]
+        public async Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsByMonthly()
+        {
+            return await _callLogService.GetAllCallLogsByMonthly();
+        }
+
+
+        [HttpGet("GetAllCallLogsByPendings")]
+        public async Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsByPendings()
+        {
+            return await _callLogService.GetAllCallLogsByPendings();
+        }
     }
 }

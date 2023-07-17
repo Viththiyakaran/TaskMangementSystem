@@ -45,9 +45,18 @@ builder.Services.AddScoped<IBusinessInterface, BusinessService>();
 builder.Services.AddScoped<IUserInterface, UserService>();
 builder.Services.AddScoped<INoteLogInterface, NoteLogService>();
 
-builder.Services.AddCors();
+
+//builder.Services.AddCors();
+
+builder.Services.AddCors(p => p.AddPolicy("CorePolicy", build =>
+{
+    build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
 
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -56,14 +65,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorePolicy");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors(options => options
-.AllowAnyOrigin()
- .AllowAnyHeader()
- .AllowAnyMethod()
- );
+//app.UseCors(options => options
+//.AllowAnyOrigin()
+// .AllowAnyHeader()
+// .AllowAnyMethod()
+// );
 
 
 app.MapControllers();

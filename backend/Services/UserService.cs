@@ -44,6 +44,7 @@ namespace TaskManagementSystem.Services
                     TblUserJWT jwt = new TblUserJWT
                     {
                         UserName = user.UserName,
+                        UserId = user.UserId,
                         UserToken = jwtToken
                     };
 
