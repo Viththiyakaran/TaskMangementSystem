@@ -112,6 +112,7 @@ namespace TaskManagementSystem.Services
             existingCallLog.AssignedTo = callLog.AssignedTo;
             existingCallLog.AppointmentDate = callLog.AppointmentDate;
             existingCallLog.AppointmentType = callLog.AppointmentType;
+            existingCallLog.ClosedBy = callLog.ClosedBy;
             existingCallLog.Status = callLog.Status;
             existingCallLog.LastUpdate = DateTime.Now;
 
@@ -243,6 +244,100 @@ namespace TaskManagementSystem.Services
             return result;
 
 
+
+        }
+
+
+
+
+        public async Task<IEnumerable<TblCallLogTaskInfo>> GetCallLogTaskInfoByUser(string assignedTo)
+        {
+            var result = await (
+                from callLogs in _db.TblCallLogs
+                join businesses in _db.TblCustomerBusinesses on callLogs.BusinessId equals businesses.BusinessId
+                join users in _db.TblUsers on callLogs.AssignedTo equals users.UserId
+                where users.UserName.Equals(assignedTo) && !callLogs.Status.Contains("Completed      ")
+                orderby callLogs.OpenDate descending
+                select new TblCallLogTaskInfo
+                {
+                    Status = callLogs.Status,
+                    TicketId = callLogs.TicketId,
+                    CallType = callLogs.CallType,
+                    BusinessId = callLogs.BusinessId,
+                    ServiceType = callLogs.ServiceType,
+                    OpenDate = callLogs.OpenDate,
+                    OpenBy = callLogs.OpenBy,
+                    AssignedTo = callLogs.AssignedTo,
+                    AppointmentDate = callLogs.AppointmentDate,
+                    AppointmentType = callLogs.AppointmentType,
+                    LastUpdate = callLogs.LastUpdate,
+                    ClosedDate = callLogs.ClosedDate,
+                    ClosedBy = callLogs.ClosedBy,
+                    InitialNote = callLogs.InitialNote,
+                    ClCustomerId = callLogs.ClCustomerId,
+                    BusinessName = businesses.BusName,
+                    AssignedName = users.Name
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<TblCallLogTaskInfoCount>> GetAllCallLogsWeeklyPerformance()
+        {
+            DateTime now = DateTime.Now;
+            DateTime startOfWeek = now.AddDays(-(int)now.DayOfWeek); // Start of the current week (Sunday)
+            DateTime endOfWeek = startOfWeek.AddDays(7).AddSeconds(-1); // End of the current week (Saturday at 23:59:59)
+
+            //var result = await (
+            //    from callLogs in _db.TblCallLogs
+            //    join users in _db.TblUsers on callLogs.ClosedBy equals users.UserId
+            //    where users.IsActive == true && callLogs.ClosedDate >= startOfWeek && callLogs.ClosedDate <= endOfWeek
+            //    && callLogs.Status.Contains("Completed")
+            //    orderby callLogs.OpenDate descending
+            //    select new TblCallLogTaskInfoCount
+            //    {
+            //        AssignedName = _db.TblUsers.Where(x => x.IsActive == true && x.UserId == callLogs.ClosedBy).Select(x => x.Name).ToList(),
+            //        StatusCount = _db.TblCallLogs.Where(x => x.ClosedBy == users.UserId).Count(c => c.Status.Contains("Completed") && c.ClosedDate >= startOfWeek && c.ClosedDate <= endOfWeek),
+            //        startOfWeek = startOfWeek,
+            //        endOfWeek = endOfWeek,
+            //        Status = callLogs.Status
+            //    })
+            //    .ToListAsync();
+
+            var result = _db.TblCallLogs
+                 .Where(callLogs => callLogs.Status.Contains("Completed") && callLogs.ClosedDate >= startOfWeek && callLogs.ClosedDate <= endOfWeek) // Add any other filter conditions for 'TblCallLogs' if needed
+                 .Join(_db.TblUsers.Where(users => users.IsActive == true), // Join 'TblCallLogs' with 'TblUsers' based on 'ClosedBy' and 'UserId'
+                     callLogs => callLogs.ClosedBy,
+                     user => user.UserId,
+                     (callLogs, user) => new TblCallLogTaskInfoCount
+                     {
+                         Status = callLogs.Status,
+                         AssignedName = user.Name
+                     })
+                 .GroupBy(entry => new { entry.Status, entry.AssignedName }) // Group the data based on Status and AssignedName
+                 .Select(group => new TblCallLogTaskInfoCount
+                 {
+                     Status = group.Key.Status,
+                     AssignedName = group.Key.AssignedName,
+                     StatusCount = group.Count(),
+                     startOfWeek = startOfWeek,// Calculate the count for each group (status)
+                     endOfWeek = endOfWeek
+                 })
+                 .ToList();
+
+
+
+            //// Count the status occurrences
+            //var statusCounts = result.GroupBy(x => x.Status)
+            //                         .Select(g => new { Status = g.Key, Count = g.Count() })
+            //                         .ToList();
+
+            //// Get unique AssignedName values
+            //var uniqueAssignedNames = result.Select(x => x.AssignedName).Distinct().ToList();
+
+
+            return result;
 
         }
 

@@ -13,5 +13,8 @@ namespace TaskManagementSystem.Interfaces
         Task<string> GenerateTicketId();
         Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsByMonthly();
         Task<IEnumerable<TblCallLogTaskInfo>> GetAllCallLogsByPendings();
+        Task<IEnumerable<TblCallLogTaskInfo>> GetCallLogTaskInfoByUser(string assignedTo);
+
+        Task<IEnumerable<TblCallLogTaskInfoCount>> GetAllCallLogsWeeklyPerformance();
     }
 }

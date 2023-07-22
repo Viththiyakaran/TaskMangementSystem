@@ -102,5 +102,23 @@ namespace TaskManagement.Controllers
         {
             return await _callLogService.GetAllCallLogsByPendings();
         }
+
+        [HttpGet("GetAllCallLogsWeeklyPerformance")]
+        public async Task<IEnumerable<TblCallLogTaskInfoCount>> GetAllCallLogsWeeklyPerformance()
+        {
+            return await _callLogService.GetAllCallLogsWeeklyPerformance();
+        }
+
+
+        [HttpGet("GetCallLogTaskInfoByUser/{assignedTo}")]
+        public async Task<IEnumerable<TblCallLogTaskInfo>> GetCallLogTaskInfoByUser(string assignedTo)
+        {
+            var callLog = await _callLogService.GetCallLogTaskInfoByUser(assignedTo);
+            if (callLog == null)
+            {
+                return (IEnumerable<TblCallLogTaskInfo>)NotFound();
+            }
+            return callLog;
+        }
     }
 }

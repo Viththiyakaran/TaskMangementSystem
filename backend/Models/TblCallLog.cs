@@ -41,4 +41,16 @@
         public string? InitialNote { get; set; }
         public int? ClCustomerId { get; set; }
     }
+
+
+    public partial class TblCallLogTaskInfoCount
+    {
+        public int StatusCount { get; set; }
+        public string? AssignedName { get; set; }
+
+        public string? Status { get; set; }
+        public DateTime startOfWeek { get; set; }
+
+        public DateTime endOfWeek { get; set; }
+    }
 }
