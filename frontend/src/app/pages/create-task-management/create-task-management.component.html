@@ -14,9 +14,9 @@
       <div class="col-lg-6">
         <a routerLink="/task-management" class="btn btn-primary m-2">Back To Task</a>
         <div class="card">
-          <h2 style="margin: auto;"> Tickets are Assigned on you</h2>
+          <h4 style="margin: auto; margin-top: 10px;"> Tickets are Assigned on you</h4>
           <div class="card-body mt-2" >
-            <table class="table">
+            <table class="table table-responsive">
               <thead>
                 <tr>
                   <th scope="col">Status</th>
@@ -28,7 +28,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let task of taskArray | paginate: { itemsPerPage: 5, currentPage: p }">
+                <tr *ngFor="let task of taskArray | paginate: { itemsPerPage: 10, currentPage: p }">
                   <td>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="gridCheck1" [checked]="task.status.trim() === 'Completed'">

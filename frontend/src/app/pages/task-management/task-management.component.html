@@ -18,7 +18,7 @@
               <label for="inputText" class="col-sm-1 col-form-label"> <th scope="col">Search</th></label>
               <div class="col-sm-10"> <input type="text" name="businessName"  placeholder="Search" [(ngModel)]="ticketId" (ngModelChange)="Search()" (keyup)="onKeyUp($event)" class="form-control"></div>
            </div>
-            <table class="table">
+            <table class="table table-responsive">
               <thead>
                 <tr>
                   <th scope="col" (click)="Sort('status')">Status <i [ngClass]="getSortIcon('status')"></i></th>
