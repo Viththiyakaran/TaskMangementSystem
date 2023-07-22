@@ -38,42 +38,99 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  getWeeklyPerformance()
-  {
-    Chart.register(...registerables);
 
-    const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'Sales',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          backgroundColor: 'rgba(54, 162, 235, 0.8)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-        },
-      ],
-    };
+  async getWeeklyPerformance() {
+    // Make API request to get the weekly performance data
+    const apiUrl = 'http://localhost:5263/api/CallLog/GetAllCallLogsWeeklyPerformance';
+    try {
+      const response = await this.http.get<any[]>(apiUrl).toPromise()!;
 
-    const config: ChartConfiguration<ChartType, number[], string> = {
-      type: 'bar',
-      data: data,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
+      // Check if the response contains data
+      if (response && response.length > 0) {
+        // Extract assignedName and statusCount values from the API response
+        const assignedNames: string[] = response.map((item) => item.assignedName);
+        const statusCounts: number[] = response.map((item) => item.statusCount);
+
+        // Create the chart configuration using the dynamic data
+        Chart.register(...registerables);
+
+        const data = {
+          labels: assignedNames, // Use assignedNames as labels
+          datasets: [
+            {
+              label: 'Support',
+              data: statusCounts, // Use statusCounts as data
+              backgroundColor: 'rgba(54, 162, 235, 0.8)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1,
+            },
+          ],
+        };
+
+        const config: ChartConfiguration<ChartType, number[], string> = {
+          type: 'bar',
+          data: data,
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Weekly Performance Chart',
+              },
+            },
           },
-          title: {
-            display: true,
-            text: 'Bar Chart Example',
-          },
-        },
-      },
-    };
+        };
 
-    const myChart = new Chart('myChart', config);
+        const myChart = new Chart('myChart', config);
+      } else {
+        // Handle the case when the API response is empty
+        console.log('No data available for weekly performance.');
+      }
+    } catch (error) {
+      console.error('Error fetching weekly performance data:', error);
+    }
   }
+
+
+  // getWeeklyPerformance()
+  // {
+  //   Chart.register(...registerables);
+
+  //   const data = {
+  //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  //     datasets: [
+  //       {
+  //         label: 'Sales',
+  //         data: [65, 59, 80, 81, 56, 55, 40],
+  //         backgroundColor: 'rgba(54, 162, 235, 0.8)',
+  //         borderColor: 'rgba(54, 162, 235, 1)',
+  //         borderWidth: 1,
+  //       },
+  //     ],
+  //   };
+
+  //   const config: ChartConfiguration<ChartType, number[], string> = {
+  //     type: 'bar',
+  //     data: data,
+  //     options: {
+  //       responsive: true,
+  //       plugins: {
+  //         legend: {
+  //           position: 'top',
+  //         },
+  //         title: {
+  //           display: true,
+  //           text: 'Bar Chart Example',
+  //         },
+  //       },
+  //     },
+  //   };
+
+  //   const myChart = new Chart('myChart', config);
+  // }
 
 
 
