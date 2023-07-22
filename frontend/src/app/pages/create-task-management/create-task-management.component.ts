@@ -164,7 +164,7 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
         closedDate: currentDate,
         clCustomerId :this.clCustomerId,
         openBy: this.selectedUserId,
-        closedBy : this.selectedAssignedUserId,
+        closedBy : 0,
         assignedTo: this.selectedAssignedUserId,
         lastUpdate: currentDate,
         businessId: this.selectedBusinessId,

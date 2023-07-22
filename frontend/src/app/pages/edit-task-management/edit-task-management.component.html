@@ -103,6 +103,14 @@
                </div>
 
                 <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+
+                  <div class="form-group">
+                    <label for="assignedTo">assignedTo</label>
+                    <select class="form-control" id="assignedTo" formControlName="assignedTo" (change)="onAssignedToSelected($event)">
+
+                      <option *ngFor="let user of userArray3" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
+                    </select>
+                  </div>
                   <!-- <div class="form-group">
                     <label for="closedDate">Closed Date</label>
                     <input type="datetime-local" class="form-control" id="closedDate" formControlName="closedDate">
@@ -117,13 +125,7 @@
                       <option value="Completed">Completed</option>
                     </select>
                   </div>
-                  <!-- <div class="form-group">
-                    <label for="closedBy">Closed By</label>
-                    <select class="form-control" id="closedBy" formControlName="closedBy" (change)="onClosedBySelected($event)">
 
-                      <option *ngFor="let user of userArray3" [value]="user.userId">{{ user.userId }} - {{ user.name }}</option>
-                    </select>
-                  </div> -->
                   <div class="row mt-3">
                     <button type="submit" class="btn btn-primary">Status Update</button>
                   </div>

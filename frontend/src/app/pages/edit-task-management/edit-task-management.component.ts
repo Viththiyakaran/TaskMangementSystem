@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ import 'select2';
   templateUrl: './edit-task-management.component.html',
   styleUrls: ['./edit-task-management.component.css']
 })
-export class EditTaskManagementComponent implements OnInit, AfterViewInit {
+export class EditTaskManagementComponent implements OnInit,AfterViewInit  {
   task: any;
   taskForm!: FormGroup;
   taskFormNotes!: FormGroup;
@@ -29,6 +29,7 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
   selectedUserId: any;
   selectedAssignedUserId: any;
   selectedClosedUserId: any;
+  selectedClosedUserIdAfterUpdate : any;
   taskArray: any[] = [];
   ticketIdAlert: any;
 
@@ -63,6 +64,30 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     this.initializeForm();
     this.loadNotesById(taskId);
     this.initializeFormNotes();
+
+
+
+
+  }
+
+
+  ngAfterViewInit(): void {
+    // Apply Select2 to the #assignedTo element
+    $('#assignedTo').select2();
+
+    // Set the initial value for the #assignedTo dropdown (optional, if needed)
+    // For example, if you want to pre-select the first user in the list
+    if (this.userArray3.length > 0) {
+      const firstUserId = this.userArray3[0].userId;
+      $('#assignedTo').val(firstUserId).trigger('change');
+      this.selectedAssignedUserId = firstUserId; // Set the initial selectedAssignedToUserId
+    }
+
+    // Listen for the "change" event on the #assignedTo dropdown
+    $('#assignedTo').on('change', (event) => {
+      this.selectedAssignedUserId = $(event.target).val();
+      console.log('Selected AssignedTo User ID:', this.selectedAssignedUserId);
+    });
   }
 
   loadNotesById(taskId: string) {
@@ -77,6 +102,10 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
         // Handle the error case
       });
   }
+
+
+
+
 
 
   loadTaskDetails(taskId: string) {
@@ -94,67 +123,87 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
 
   //----------------------------------------------------------------------//
 
-  ngAfterViewInit(): void {
-    // Initialize Select2 inside the ngAfterViewInit method
-    setTimeout(() => {
-      $('#businessId').select2();
-      $('#businessId').val(this.task[0].businessId).trigger('change');
-      $('#assignedTo').select2();
-      $('#assignedTo').val(this.task[0].assignedTo).trigger('change');
-      $('#closedBy').select2();
-      $('#closedBy').val(this.task[0].closedBy).trigger('change');
+  // ngAfterViewInit(): void {
+  //   // Initialize Select2 inside the ngAfterViewInit method
+  //   setTimeout(() => {
+  //     $('#businessId').select2();
+  //     $('#businessId').val(this.task[0].businessId).trigger('change');
+  //     $('#assignedTo').select2();
+  //     $('#assignedTo').val(this.task[0].assignedTo).trigger('change');
+  //     $('#closedBy').select2();
+  //     $('#closedBy').val(this.task[0].closedBy).trigger('change');
 
 
 
-      $('#closedBy').on('change', (event) => {
-        this.selectedClosedUserId = $(event.target).val();
-        console.log('Selected value:', this.selectedClosedUserId);
-      });
+  //     $('#closedBy').on('change', (event) => {
+  //       this.selectedClosedUserId = $(event.target).val();
+  //       console.log('Selected value:', this.selectedClosedUserId);
+  //     });
 
-      $('#openBy').on('change', (event) => {
-        this.selectedUserId = $(event.target).val();
-        console.log('Selected value:', this.selectedUserId);
-      });
+  //     $('#openBy').on('change', (event) => {
+  //       this.selectedUserId = $(event.target).val();
+  //       console.log('Selected value:', this.selectedUserId);
+  //     });
 
-      $('#assignedTo').on('change', (event) => {
-        this.selectedAssignedUserId = $(event.target).val();
-        console.log('Selected value:', this.selectedAssignedUserId);
-      });
+  //     $('#assignedTo').on('change', (event) => {
+  //       this.selectedAssignedUserId = $(event.target).val();
+  //       console.log('Selected value:', this.selectedAssignedUserId);
+  //     });
 
-      $('#businessId').on('change', (event) => {
-        this.selectedBusinessId = $(event.target).val();
-        console.log('Selected value:', this.selectedBusinessId);
-
-
-
-        // Retrieve customer information based on the selected business ID
-        if (this.selectedBusinessId) {
-          this.http
-            .get(
-              `http://localhost:5263/api/Business/BusinessInfo/${this.selectedBusinessId}`
-            )
-            .subscribe(
-              (response: any) => {
-                // Assuming the customer ID is stored in the response as `customerId`
-                const customerId = response.customerId;
-                console.log('Customer ID:', customerId);
-
-                // You can perform further operations with the customer ID, such as assigning it to a variable
-                this.clCustomerId = customerId;
-              },
-              (error) => {
-                console.error(
-                  'Error retrieving customer information',
-                  error
-                );
-              }
-            );
-        }
-      });
-    }, 0);
+  //     $('#businessId').on('change', (event) => {
+  //       this.selectedBusinessId = $(event.target).val();
+  //       console.log('Selected value:', this.selectedBusinessId);
 
 
-  }
+
+  //       // Retrieve customer information based on the selected business ID
+  //       if (this.selectedBusinessId) {
+  //         this.http
+  //           .get(
+  //             `http://localhost:5263/api/Business/BusinessInfo/${this.selectedBusinessId}`
+  //           )
+  //           .subscribe(
+  //             (response: any) => {
+  //               // Assuming the customer ID is stored in the response as `customerId`
+  //               const customerId = response.customerId;
+  //               console.log('Customer ID:', customerId);
+
+  //               // You can perform further operations with the customer ID, such as assigning it to a variable
+  //               this.clCustomerId = customerId;
+  //             },
+  //             (error) => {
+  //               console.error(
+  //                 'Error retrieving customer information',
+  //                 error
+  //               );
+  //             }
+  //           );
+  //       }
+  //     });
+  //   }, 0);
+
+
+  // }
+
+  // ngAfterViewInit(): void {
+  //   // Wrap the initialization logic inside $(document).ready()
+  //   $(document).ready(() => {
+  //     // Check if the #assignedTo element is available in the DOM
+  //     if ($('#assignedTo').length) {
+  //       // Initialize Select2
+  //       $('#assignedTo').select2();
+
+  //       // Set the value for the #assignedTo dropdown
+  //       $('#assignedTo').val(this.task[0].assignedTo).trigger('change');
+
+  //       // Handle the change event for #assignedTo
+  //       $('#assignedTo').on('change', (event) => {
+  //         this.selectedAssignedUserId = $(event.target).val();
+  //         console.log('Selected AssignedTo User ID:', this.selectedAssignedUserId);
+  //       });
+  //     }
+  //   });
+  // }
 
 
 
@@ -224,7 +273,7 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
       status: ['Open'],
       lastUpdate: [''],
       closedDate: [''],
-      closedBy:  this.selectedClosedUserId,
+      closedBy:  [''],
       initialNote: [''],
       clCustomerId: ['']
     });
@@ -249,49 +298,63 @@ export class EditTaskManagementComponent implements OnInit, AfterViewInit {
     if (this.taskForm.valid) {
       const formData: FormGroup = this.taskForm;
 
-      this.selectedClosedUserId =localStorage.getItem('UserId');
+       // Find person ID by username
 
+       const username = localStorage.getItem('UserName');// Replace with the actual username you want to search for
+       const user = this.userArray.find((user: any) => user.userName === username);
+       console.log("userData ", user)
+       if (user) {
+         const userId = user.userId;
+         //this.selectedClosedUserIdAfterUpdate =userId;
+
+         const updatedTask = {
+          ...formData.value,
+          ticketId: this.task[0].ticketId,
+          callType: this.task[0].callType,
+          businessType: 'Registered',
+          businessId: this.task[0].businessId,
+          serviceType: this.task[0].serviceType,
+          openDate: this.task[0].openDate,
+          openBy: this.task[0].openBy,
+          assignedTo:this.selectedAssignedUserId ,
+          appointmentDate: this.task[0].appointmentDate,
+          appointmentType: this.task[0].appointmentType,
+          status: this.taskForm.value.status,
+          lastUpdate: currentDate,
+          closedDate: cDateUpdate,
+          closedBy: userId,
+          initialNote: this.task[0].initialNote,
+          clCustomerId: this.task[0].clCustomerId,
+        };
+        console.log('Task updated successfully:', userId," or check ");
+        const taskId = this.route.snapshot.params['taskId'];
+
+        const confirmation = confirm('Are you sure you want to update the task and navigate to task details?');
+
+        if(confirmation)
+        {
+            const url = `http://localhost:5263/api/CallLog/PutCallLogTaskInfo/${taskId}`;
+            this.http.put(url, updatedTask).subscribe(
+            (response: any) => {
+              console.log('Task updated successfully:', response);
+              console.log('Task updated successfully:', updatedTask.closedBy," or check ");
+              // Perform any other actions after successful update
+              this.redirectToTaskDetails(taskId);
+            },
+            (error) => {
+              console.error('Error updating task:', error);
+              // Handle the error case
+            }
+          );
+        }
+         console.log('Person ID after update:', userId , "" );
+       } else {
+         console.log('User not found');
+       }
+      console.log(this.selectedClosedUserIdAfterUpdate, "User Id from localstorga")
       // const selectedClosedUserId = this.taskForm.value.closedBy;
 
-      const updatedTask = {
-        ...formData.value,
-        ticketId: this.task[0].ticketId,
-        callType: this.task[0].callType,
-        businessType: 'Registered',
-        businessId: this.task[0].businessId,
-        serviceType: this.task[0].serviceType,
-        openDate: this.task[0].openDate,
-        openBy: this.task[0].openBy,
-        assignedTo:this.task[0].assignedTo,
-        appointmentDate: this.task[0].appointmentDate,
-        appointmentType: this.task[0].appointmentType,
-        status: this.taskForm.value.status,
-        lastUpdate: currentDate,
-        closedDate: cDateUpdate,
-        closedBy: this.selectedClosedUserId,
-        initialNote: this.task[0].initialNote,
-        clCustomerId: this.task[0].clCustomerId,
-      };
 
-      const taskId = this.route.snapshot.params['taskId'];
-
-      const confirmation = confirm('Are you sure you want to update the task and navigate to task details?');
-
-      if(confirmation)
-      {
-          const url = `http://localhost:5263/api/CallLog/PutCallLogTaskInfo/${taskId}`;
-          this.http.put(url, updatedTask).subscribe(
-          (response: any) => {
-            console.log('Task updated successfully:', response);
-            // Perform any other actions after successful update
-            this.redirectToTaskDetails(taskId);
-          },
-          (error) => {
-            console.error('Error updating task:', error);
-            // Handle the error case
-          }
-        );
-      }
 
     }
   }

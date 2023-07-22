@@ -1,5 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -14,9 +16,7 @@ export class DashboardComponent implements OnInit {
   taskArrayPending: any[] = [];
 
 
-  ngOnInit(
-
-  ): void {
+  ngOnInit(): void {
 
     var s = document.createElement("script");
     s.type = "text/javascript";
@@ -33,6 +33,46 @@ export class DashboardComponent implements OnInit {
 
     this.ticketMonth = `${month} ${year}`;
 
+
+    this.getWeeklyPerformance();
+
+  }
+
+  getWeeklyPerformance()
+  {
+    Chart.register(...registerables);
+
+    const data = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'Sales',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          backgroundColor: 'rgba(54, 162, 235, 0.8)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const config: ChartConfiguration<ChartType, number[], string> = {
+      type: 'bar',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Bar Chart Example',
+          },
+        },
+      },
+    };
+
+    const myChart = new Chart('myChart', config);
   }
 
 

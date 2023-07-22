@@ -6,6 +6,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CKEditorModule } from 'ckeditor4-angular';
+import { HashLocationStrategy,LocationStrategy } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -115,6 +116,10 @@ import { AuthInterceptor } from './service/token-pass.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {
+      provide : LocationStrategy,
+      useClass : HashLocationStrategy
     }
   ],
   bootstrap: [AppComponent]
