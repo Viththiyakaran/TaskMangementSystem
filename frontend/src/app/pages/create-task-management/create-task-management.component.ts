@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import * as $ from 'jquery';
 import 'select2';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -54,21 +55,21 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
 
   initializeForm() {
     this.taskForm = this.formBuilder.group({
-      ticketId: [''],
-      callType: [''],
+      ticketId: new FormControl(null),
+      callType: new FormControl(null, Validators.required),
       businessType: ['Registered'],
-      businessId: [''],
-      serviceType: [''],
+      businessId: new FormControl(null, Validators.required),
+      serviceType: new FormControl(null, Validators.required),
       openDate: [''],
       openBy: [''],
-      assignedTo: [''],
-      appointmentDate: [''],
-      appointmentType: [''],
+      assignedTo: new FormControl(null, Validators.required),
+      appointmentDate: new FormControl(null, Validators.required),
+      appointmentType: new FormControl(null, Validators.required),
       status: ['Open'],
       lastUpdate: [''],
       closedDate: [''],
       closedBy: [''],
-      initialNote: [''],
+      initialNote: new FormControl(null, Validators.required),
       clCustomerId: ['']
     });
   }
@@ -158,6 +159,8 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
   onSubmit() {
     const currentDate = new Date().toISOString();
 
+
+
     if (this.taskForm.valid) {
       const formData = {
         ...this.taskForm.value,
@@ -194,6 +197,23 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
             console.error('Error saving data', error);
           }
         );
+    }
+    else{
+
+      if (this.taskForm.get('businessId')?.invalid) {
+
+        Swal.fire('Hey user!', 'You are the rockstar!', 'info');
+
+        Swal.update({
+          icon: 'success'
+        })
+      }
+      else if (this.taskForm.get('appointmentDate')?.invalid) {
+        alert('Please select the Appointment Date.');
+      }
+      else  if (this.taskForm.get('appointmentType')?.invalid) {
+        alert('Please select the Appointment Type.');
+      }
     }
   }
 

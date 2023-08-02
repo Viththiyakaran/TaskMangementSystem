@@ -7,6 +7,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { HashLocationStrategy,LocationStrategy } from '@angular/common';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -109,7 +110,8 @@ import { AuthInterceptor } from './service/token-pass.interceptor';
     Ng2SearchPipeModule,
     Ng2OrderModule,
     NgxPaginationModule,
-    CKEditorModule
+    CKEditorModule,
+    SweetAlert2Module
   ],
   providers: [
     {
