@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pages-login',
@@ -11,18 +12,18 @@ export class PagesLoginComponent implements OnInit {
   UserName: string = '';
   UserPassword: string = '';
   errorAlert: string = '';
-  ticketIdAlert : any;
+
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  dismissAlert(): void {
-    this.errorAlert = '';
-  }
+
 
 
   login(): void {
+
+
     const url = `http://localhost:5263/api/User/LoginUser?UserName=${encodeURIComponent(this.UserName)}&UserPassword=${encodeURIComponent(this.UserPassword)}`;
 
     this.http.post<any>(url, null).subscribe(
@@ -43,22 +44,40 @@ export class PagesLoginComponent implements OnInit {
         } catch (error) {
 
           console.log('Error storing token in localStorage:', error);
-          this.errorAlert  ='Error storing token in localStorage:';
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Error storing token in localStorage:',
+          })
         }
       },
       error => {
         console.log('Login failed:', error);
-        this.errorAlert  ='Login failed';
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: 'Login Failed',
+        })
         // Handle login error here
         if (error.status === 400) {
           // Handle specific error code
           console.log('Invalid username or password');
-          this.errorAlert  ='Invalid username or password';
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Invalid username or password',
+          })
         } else {
           console.log('An error occurred during login. Please try again later.');
-          this.errorAlert  ='An error occurred during login. Please try again later.';
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'An error occurred during login. Please try again later.',
+          })
         }
       }
     );
+
+
   }
 }

@@ -55,24 +55,26 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
 
   initializeForm() {
     this.taskForm = this.formBuilder.group({
-      ticketId: new FormControl(null),
-      callType: new FormControl(null, Validators.required),
+      ticketId: [''],
+      callType: [''],
       businessType: ['Registered'],
-      businessId: new FormControl(null, Validators.required),
-      serviceType: new FormControl(null, Validators.required),
+      businessId: [''],
+      serviceType: [''],
       openDate: [''],
       openBy: [''],
-      assignedTo: new FormControl(null, Validators.required),
-      appointmentDate: new FormControl(null, Validators.required),
-      appointmentType: new FormControl(null, Validators.required),
+      assignedTo: [''],
+      appointmentDate: [''],
+      appointmentType: [''],
       status: ['Open'],
       lastUpdate: [''],
       closedDate: [''],
       closedBy: [''],
-      initialNote: new FormControl(null, Validators.required),
+      initialNote: [''],
       clCustomerId: ['']
     });
   }
+
+
 
   onBusinessIdSelected(event: Event) {
     const target = event.target as HTMLSelectElement;
@@ -158,10 +160,38 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     const currentDate = new Date().toISOString();
-
-
-
-    if (this.taskForm.valid) {
+    const userName = localStorage.getItem('UserName');
+    if(this.selectedBusinessId == null)
+    {
+      Swal.fire('Hey '+ userName, 'Please select a BusinessId before submitting the form.!', 'info');
+      return; // Prevent form submission
+    }
+    else if (this.taskForm.get('callType')?.value === null || this.taskForm.get('callType')?.value === '') {
+      Swal.fire( 'Hey '+ userName, 'Please select a Call Type before submitting the form.!', 'info');
+      return; // Prevent form submission
+    }
+    else if (this.taskForm.get('serviceType')?.value === null || this.taskForm.get('serviceType')?.value === '') {
+      Swal.fire( 'Hey '+ userName, 'Please select a Service Type before submitting the form.!', 'info');
+      return; // Prevent form submission
+    }
+    else if(this.selectedAssignedUserId == null )
+    {
+      Swal.fire( 'Hey '+ userName, 'Please select a Assigned User before submitting the form.!', 'info');
+      return; // Prevent form submission
+    }
+    else if (this.taskForm.get('appointmentDate')?.value === null || this.taskForm.get('appointmentDate')?.value === '') {
+      Swal.fire( 'Hey '+ userName, 'Please select a appointmentDate before submitting the form.!', 'info');
+      return; // Prevent form submission
+    }
+    else if (this.taskForm.get('appointmentType')?.value === null || this.taskForm.get('appointmentType')?.value === '') {
+      Swal.fire( 'Hey '+ userName, 'Please select a appointmentType before submitting the form.!', 'info');
+      return; // Prevent form submission
+    }
+    else if (this.taskForm.get('initialNote')?.value === null || this.taskForm.get('initialNote')?.value === '') {
+      Swal.fire( 'Hey '+ userName, 'Please type the initialNote before submitting the form.!', 'info');
+      return; // Prevent form submission
+    }
+    else if (this.taskForm.valid) {
       const formData = {
         ...this.taskForm.value,
         closedDate: currentDate,
@@ -184,10 +214,18 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
             $('#closedBy').val('').trigger('change');
             $('#assignedTo').val('').trigger('change');
 
-            this.isSuccess = true;
-            if (this.isSuccess) {
-              this.getGeneratedTicketId();
-            }
+            this.http.get<string>('http://localhost:5263/api/CallLog/GenerateTicketId')
+            .subscribe((id: string) => {
+              // Assign the fetched ID to a variable or display it directly
+
+              Swal.fire( 'Hey '+ id, 'Clear DOne', 'info');
+              this.redirectToTaskDetails(id);
+            });
+
+
+            // if (this.isSuccess) {
+            //   this.getGeneratedTicketId();
+            // }
            // this.getGeneratedTicketId();
 
 
@@ -198,23 +236,9 @@ export class CreateTaskManagementComponent implements OnInit, AfterViewInit {
           }
         );
     }
-    else{
 
-      if (this.taskForm.get('businessId')?.invalid) {
 
-        Swal.fire('Hey user!', 'You are the rockstar!', 'info');
 
-        Swal.update({
-          icon: 'success'
-        })
-      }
-      else if (this.taskForm.get('appointmentDate')?.invalid) {
-        alert('Please select the Appointment Date.');
-      }
-      else  if (this.taskForm.get('appointmentType')?.invalid) {
-        alert('Please select the Appointment Type.');
-      }
-    }
   }
 
 
